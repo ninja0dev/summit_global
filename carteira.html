@@ -1,0 +1,73 @@
+<!-- cliente/sections/carteira.html -->
+<section class="section" id="carteira">
+  <h2 style="color:var(--gold); text-align:center; margin-bottom:20px;">
+    💼 Carteira Premium
+  </h2>
+
+  <!-- Resumo dos saldos -->
+  <div class="cards" style="margin-bottom:30px;">
+    <div class="card">
+      <h4>💰 Saldo Disponível</h4>
+      <p style="font-size:22px; color:var(--gold);">USDT 2,500</p>
+      <button class="btn-primary" onclick="loadSection('planos')">Aplicar em Plano</button>
+    </div>
+    <div class="card">
+      <h4>📈 Lucros</h4>
+      <p style="font-size:22px; color:#2ecc71;">USDT 3,200</p>
+      <button class="btn-primary" onclick="loadSection('saques')">Sacar</button>
+    </div>
+    <div class="card">
+      <h4>👥 Comissões</h4>
+      <p style="font-size:22px; color:#3498db;">USDT 1,100</p>
+      <button class="btn-primary" onclick="loadSection('saques')">Sacar</button>
+    </div>
+    <div class="card">
+      <h4>🎁 Bônus</h4>
+      <p style="font-size:22px; color:#9b59b6;">USDT 500</p>
+      <button class="btn-primary" onclick="loadSection('saques')">Sacar</button>
+    </div>
+    <div class="card">
+      <h4>🔒 Total Consolidado</h4>
+      <p style="font-size:22px; color:#fff;">USDT 7,300</p>
+      <button class="btn-ghost" onclick="loadSection('saques')">Extrato Completo</button>
+    </div>
+  </div>
+
+  <!-- Gráficos Premium -->
+  <div style="display:flex; flex-wrap:wrap; gap:30px; justify-content:center; margin-bottom:40px;">
+    <div style="flex:1; min-width:300px; max-width:480px;">
+      <h3 style="color:var(--gold); text-align:center;">📊 Distribuição de Saldos</h3>
+      <canvas id="walletPieChart" width="400" height="400"></canvas>
+    </div>
+    <div style="flex:1; min-width:300px; max-width:600px;">
+      <h3 style="color:var(--gold); text-align:center;">📈 Evolução Patrimonial</h3>
+      <canvas id="walletLineChart" width="600" height="400"></canvas>
+    </div>
+  </div>
+
+  <!-- Histórico de movimentações -->
+  <div class="section">
+    <h3 style="color:var(--gold); text-align:center;">📜 Últimas Movimentações</h3>
+    <div class="card" style="overflow-x:auto;">
+      <table style="width:100%; border-collapse:collapse; color:#ddd; font-size:14px;">
+        <thead style="background:#0b0b0d; color:var(--gold);">
+          <tr>
+            <th style="padding:8px; text-align:left;">Data</th>
+            <th style="padding:8px; text-align:left;">Tipo</th>
+            <th style="padding:8px; text-align:left;">Descrição</th>
+            <th style="padding:8px; text-align:left;">Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:8px;">2025-09-20</td><td>Depósito</td><td>USDT carregado via TRC20</td><td style="color:var(--gold);">+2000</td></tr>
+          <tr><td style="padding:8px;">2025-09-18</td><td>Plano</td><td>Aplicado no Ouro</td><td style="color:#e67e22;">-1000</td></tr>
+          <tr><td style="padding:8px;">2025-09-15</td><td>Lucro</td><td>Rendimento diário</td><td style="color:#2ecc71;">+45</td></tr>
+          <tr><td style="padding:8px;">2025-09-12</td><td>Comissão</td><td>Indicação direta</td><td style="color:#3498db;">+120</td></tr>
+          <tr><td style="padding:8px;">2025-09-10</td><td>Saque</td><td>Transferido para carteira</td><td style="color:#f66;">-500</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- CORREÇÃO: Scripts removidos daqui, serão criados pelo dashboard.js -->

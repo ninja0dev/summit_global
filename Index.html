@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Summit Global Invest - Investimentos Premium com Rendimentos Sustentáveis">
+  <meta name="keywords" content="investimentos, rendimentos, plano de carreira, summit global">
+  <meta name="author" content="Summit Global Invest">
+  <meta name="theme-color" content="#f1c40f">
+  
+  <title>Summit Global Invest - Investimentos Premium</title>
+  
+  <!-- ⚠️ CSS - CAMINHO CORRETO PARA SUA ESTRUTURA -->
+  <link rel="stylesheet" href="css/institucional.css">
+  
+  <!-- Scripts externos (defer) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+  
+  <!-- ⚠️ Scripts internos - CAMINHO CORRETO -->
+  <script defer src="js/institucional.js"></script>
+</head>
+<body id="topo">
+  
+  <!-- LOADER INLINE (garantido) -->
+  <div id="page-loader" style="position:fixed;inset:0;background:linear-gradient(135deg,#0a0a0f 0%,#000 100%);display:flex;align-items:center;justify-content:center;z-index:9999;transition:opacity 0.5s,visibility 0.5s">
+    <div style="text-align:center">
+      <img src="img/logo/logo.png" alt="Summit Global" style="width:120px;height:120px;animation:pulse 2s ease-in-out infinite;filter:drop-shadow(0 0 20px rgba(241,196,15,0.6))">
+      <div style="width:60px;height:60px;border:4px solid rgba(241,196,15,0.2);border-top-color:#f1c40f;border-radius:50%;animation:spin 1s linear infinite;margin:20px auto"></div>
+      <p style="color:#f1c40f;font-size:16px;font-family:'Segoe UI',sans-serif;font-weight:600;margin-top:16px">Carregando...</p>
+    </div>
+  </div>
+  
+  <style>
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .loaded { opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
+  </style>
+
+  <!-- Container -->
+  <div id="institucional-root"></div>
+
+  <!-- Script de carregamento -->
+  <script>
+    (function() {
+      const root = document.getElementById('institucional-root');
+      const loader = document.getElementById('page-loader');
+      
+      fetch('institucional.html')
+        .then(res => {
+          if (!res.ok) throw new Error('Falha ao carregar institucional.html');
+          return res.text();
+        })
+        .then(html => {
+          root.innerHTML = html;
+          
+          // Remove loader após 800ms
+          setTimeout(() => {
+            loader.classList.add('loaded');
+            setTimeout(() => loader.remove(), 500);
+          }, 800);
+          
+          console.log('✅ Institucional carregado');
+        })
+        .catch(err => {
+          console.error('❌ Erro:', err);
+          root.innerHTML = `
+            <div style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:#0a0a0f;color:#fff;text-align:center;padding:20px;font-family:'Segoe UI',sans-serif">
+              <div style="max-width:500px">
+                <img src="img/logo/logo.png" alt="Logo" style="width:100px;margin-bottom:20px">
+                <h1 style="color:#f1c40f;margin-bottom:16px">⚠️ Erro ao Carregar</h1>
+                <p style="color:#ddd;margin-bottom:20px">Não foi possível carregar o conteúdo.</p>
+                <button onclick="location.reload()" style="background:#f1c40f;color:#000;border:none;padding:12px 24px;border-radius:8px;font-weight:700;cursor:pointer">🔄 Recarregar</button>
+              </div>
+            </div>
+          `;
+          loader.remove();
+        });
+    })();
+  </script>
+
+</body>
+</html>

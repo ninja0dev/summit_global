@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow">
+  <title>Login — Summit Global Invest</title>
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #0b0b0f 0%, #0a0a0e 100%);
+      color: #fff;
+      font-family: "Segoe UI", sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .login-container {
+      background: linear-gradient(145deg, #111, #1a1a1f);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 40px 32px;
+      box-shadow: 0 0 30px rgba(241,196,15,0.15);
+      width: 90%;
+      max-width: 420px;
+      text-align: center;
+      position: relative;
+      z-index: 5;
+      animation: fadeInUp 0.6s ease;
+    }
+
+    .login-logo img {
+      width: 90px;
+      height: 90px;
+      margin-bottom: 16px;
+      filter: drop-shadow(0 0 12px rgba(241,196,15,0.6));
+      animation: glow 3s ease-in-out infinite;
+    }
+
+    h2 {
+      color: var(--gold);
+      margin-bottom: 24px;
+      font-size: 22px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    input {
+      width: 100%;
+      margin: 10px 0;
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: #0f0f12;
+      color: #fff;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(241,196,15,0.1);
+    }
+
+    input.error {
+      border-color: #e74c3c;
+      animation: shake 0.3s ease;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #bbb;
+      margin-top: 4px;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .checkbox-row input[type="checkbox"] {
+      width: auto;
+      margin: 0;
+      cursor: pointer;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: #000;
+      margin-top: 14px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    button:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow: 0 0 15px rgba(241,196,15,0.4);
+    }
+
+    button:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    button .spinner {
+      display: none;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(0,0,0,0.3);
+      border-top-color: #000;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto;
+    }
+
+    button.loading .spinner {
+      display: block;
+    }
+
+    button.loading .btn-text {
+      display: none;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    a {
+      color: var(--gold);
+      display: block;
+      margin-top: 16px;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: #fff;
+    }
+
+    .login-footer {
+      margin-top: 20px;
+      font-size: 13px;
+      color: #777;
+    }
+
+    .login-footer strong {
+      color: var(--gold);
+    }
+
+    #tsparticles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 16px 24px;
+      border-radius: 8px;
+      color: white;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      z-index: 10000;
+      animation: slideInRight 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      max-width: 400px;
+    }
+
+    .toast-success {
+      background: linear-gradient(135deg, #2ecc71, #27ae60);
+      border-left: 4px solid #1e8449;
+    }
+
+    .toast-error {
+      background: linear-gradient(135deg, #e74c3c, #c0392b);
+      border-left: 4px solid #a93226;
+    }
+
+    .toast-warning {
+      background: linear-gradient(135deg, #f39c12, #e67e22);
+      border-left: 4px solid #d68910;
+    }
+
+    .toast-hide {
+      animation: slideOutRight 0.3s ease;
+    }
+
+    @keyframes slideInRight {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideOutRight {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes glow {
+      0%, 100% { filter: drop-shadow(0 0 12px rgba(241,196,15,0.6)); }
+      50% { filter: drop-shadow(0 0 20px rgba(241,196,15,0.9)); }
+    }
+
+    @media (max-width: 768px) {
+      .toast {
+        right: 10px;
+        left: 10px;
+        max-width: calc(100% - 20px);
+      }
+
+      .login-container {
+        padding: 32px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="tsparticles"></div>
+
+  <div class="login-container">
+    <div class="login-logo">
+      <img src="img/logo/logo.png" alt="Summit Global Invest" />
+    </div>
+
+    <h2>Área do Cliente</h2>
+
+    <form id="login-form">
+      <input 
+        type="text" 
+        id="login-user" 
+        placeholder="E-mail ou Nome de Usuário" 
+        required
+        autocomplete="username"
+        aria-label="E-mail ou Nome de Usuário"
+      />
+      <input 
+        type="password" 
+        id="login-password" 
+        placeholder="Senha" 
+        required
+        autocomplete="current-password"
+        aria-label="Senha"
+      />
+
+      <div class="checkbox-row" onclick="document.getElementById('remember').click()">
+        <input type="checkbox" id="remember" />
+        <label for="remember">Permanecer conectado (30 dias)</label>
+      </div>
+
+      <button type="submit" id="login-btn">
+        <span class="btn-text">Entrar</span>
+        <div class="spinner"></div>
+      </button>
+    </form>
+
+    <a href="register.html">Criar conta</a>
+    <a href="recover.html">Esqueci minha senha</a>
+
+    <div class="login-footer">
+      © 2025 <strong>Summit Global Invest</strong>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+  <script src="cliente/js/auth.js"></script>
+  <script>
+    // ============================================
+    // VARIÁVEL DE CONTROLE ANTI-LOOP
+    // ============================================
+    let isRedirecting = false;
+
+    // ============================================
+    // VERIFICAÇÃO INTELIGENTE DE SESSÃO - CORRIGIDA
+    // ============================================
+    (function checkExistingSession() {
+      console.log("🔍 Verificando sessão existente...");
+      
+      // Previne verificação múltipla
+      if (isRedirecting) {
+        console.log("⚠️ Redirecionamento já em andamento");
+        return;
+      }
+      
+      try {
+        const sessionData = localStorage.getItem("summit_session");
+        
+        if (sessionData) {
+          const session = JSON.parse(sessionData);
+          
+          // Se sessão válida, vai direto pro dashboard
+          if (session && session.id && session.username) {
+            // Verifica se usuário existe e está ativo
+            const users = JSON.parse(localStorage.getItem("summit_users") || "[]");
+            const userExists = users.find(u => u.id === session.id);
+            
+            if (userExists && userExists.ativo) {
+              // Verifica expiração
+              if (!session.expiry || Date.now() < session.expiry) {
+                console.log("✅ Sessão válida encontrada, redirecionando...");
+                isRedirecting = true;
+                
+                // Pequeno delay para evitar loop
+                setTimeout(() => {
+                  window.location.href = "cliente/dashboard.html";
+                }, 100);
+                return;
+              }
+            }
+          }
+        }
+      } catch (error) {
+        console.warn("⚠️ Sessão corrompida, limpando...");
+        localStorage.removeItem("summit_session");
+        sessionStorage.clear();
+      }
+      
+      console.log("✅ Pronto para login");
+    })();
+
+    // ============================================
+    // TOAST NOTIFICATIONS
+    // ============================================
+    function showToast(message, type = 'success') {
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+      toast.textContent = message;
+      
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.add('toast-hide');
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    // ============================================
+    // VALIDAÇÕES CLIENT-SIDE
+    // ============================================
+    function validateLoginForm() {
+      const userInput = document.getElementById("login-user");
+      const passwordInput = document.getElementById("login-password");
+      
+      let isValid = true;
+
+      userInput.classList.remove("error");
+      passwordInput.classList.remove("error");
+
+      if (!userInput.value.trim()) {
+        userInput.classList.add("error");
+        showToast("⚠️ Informe seu usuário ou e-mail", "warning");
+        userInput.focus();
+        isValid = false;
+      }
+
+      if (!passwordInput.value.trim()) {
+        passwordInput.classList.add("error");
+        showToast("⚠️ Informe sua senha", "warning");
+        if (isValid) passwordInput.focus();
+        isValid = false;
+      }
+
+      return isValid;
+    }
+
+    // ============================================
+    // PROCESSO DE LOGIN (ASYNC) - CORRIGIDO
+    // ============================================
+    async function handleLogin(e) {
+      e.preventDefault();
+      
+      // Previne múltiplos submits
+      if (isRedirecting) {
+        console.log("⚠️ Redirecionamento já em andamento");
+        return;
+      }
+      
+      console.log("🔐 Iniciando processo de login...");
+
+      if (!validateLoginForm()) {
+        return;
+      }
+
+      const userInput = document.getElementById("login-user").value.trim();
+      const password = document.getElementById("login-password").value.trim();
+      const remember = document.getElementById("remember").checked;
+      const loginBtn = document.getElementById("login-btn");
+
+      loginBtn.disabled = true;
+      loginBtn.classList.add("loading");
+
+      try {
+        console.log("📡 Autenticando usuário...");
+
+        const result = await loginUser(userInput, password, remember);
+
+        if (!result.ok) {
+          console.warn("❌ Login falhou:", result.msg);
+          showToast(result.msg, "error");
+          
+          document.getElementById("login-password").value = "";
+          document.getElementById("login-password").focus();
+          
+        } else {
+          console.log("✅ Login bem-sucedido:", result.user.username);
+          showToast("✅ Login realizado com sucesso!", "success");
+          
+          // Define flag antes de redirecionar
+          isRedirecting = true;
+          
+          setTimeout(() => {
+            console.log("🚀 Redirecionando para dashboard...");
+            window.location.href = "cliente/dashboard.html";
+          }, 500);
+        }
+
+      } catch (error) {
+        console.error("❌ Erro no processo de login:", error);
+        showToast("❌ Erro ao processar login. Tente novamente.", "error");
+      } finally {
+        if (!isRedirecting) {
+          loginBtn.disabled = false;
+          loginBtn.classList.remove("loading");
+        }
+      }
+    }
+
+    document.getElementById("login-form").addEventListener("submit", handleLogin);
+
+    // ============================================
+    // TECLA ENTER FUNCIONAL
+    // ============================================
+    document.querySelectorAll("#login-user, #login-password").forEach(input => {
+      input.addEventListener("keypress", (e) => {
+        if (e.key === "Enter" && !isRedirecting) {
+          e.preventDefault();
+          document.getElementById("login-form").dispatchEvent(new Event("submit"));
+        }
+      });
+    });
+
+    // ============================================
+    // PARTÍCULAS DE FUNDO
+    // ============================================
+    const isMobile = window.innerWidth <= 768;
+    
+    tsParticles.load("tsparticles", {
+      background: { color: "transparent" },
+      particles: {
+        number: { 
+          value: isMobile ? 15 : 30,
+          density: {
+            enable: true,
+            value_area: 1000
+          }
+        },
+        color: { value: "#f1c40f" },
+        opacity: { 
+          value: 0.4,
+          random: true,
+          anim: {
+            enable: true,
+            speed: 0.5,
+            opacity_min: 0.1
+          }
+        },
+        size: { 
+          value: isMobile ? 2 : 3,
+          random: true,
+          anim: {
+            enable: true,
+            speed: 2,
+            size_min: 0.5
+          }
+        },
+        move: { 
+          enable: true, 
+          speed: isMobile ? 0.5 : 0.8,
+          direction: "none",
+          random: true,
+          out_mode: "out"
+        },
+        line_linked: {
+          enable: !isMobile,
+          distance: 150,
+          color: "#f1c40f",
+          opacity: 0.2,
+          width: 1
+        },
+        shape: { type: "circle" }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: {
+            enable: !isMobile,
+            mode: "repulse"
+          },
+          resize: true
+        },
+        modes: {
+          repulse: {
+            distance: 100,
+            duration: 0.4
+          }
+        }
+      },
+      retina_detect: true,
+      fps_limit: isMobile ? 30 : 60
+    }).then(() => {
+      console.log("🎨 Partículas carregadas");
+    });
+
+    // ============================================
+    // VERIFICAÇÃO DE SISTEMA
+    // ============================================
+    if (typeof loginUser !== 'function') {
+      console.error("❌ ERRO CRÍTICO: auth.js não foi carregado!");
+      showToast("❌ Erro ao carregar sistema de autenticação", "error");
+      document.getElementById("login-btn").disabled = true;
+      document.getElementById("login-btn").innerHTML = "Sistema Indisponível";
+    }
+
+    // ============================================
+    // FOCUS AUTOMÁTICO
+    // ============================================
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        document.getElementById("login-user").focus();
+      }, 300);
+    });
+
+    // ============================================
+    // PREVENÇÃO DE BACK BUTTON
+    // ============================================
+    window.addEventListener("pageshow", (event) => {
+      if (event.persisted) {
+        console.log("↩️ Usuário voltou via back button");
+        localStorage.removeItem("summit_session");
+        sessionStorage.clear();
+        isRedirecting = false;
+      }
+    });
+
+    console.log("✅ Sistema de login v2.1 pronto");
+  </script>
+</body>

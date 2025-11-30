@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow">
+  <title>Recuperar Senha — Summit Global Invest</title>
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #0b0b0f 0%, #0a0a0e 100%);
+      color: #fff;
+      font-family: "Segoe UI", sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .recover-container {
+      background: linear-gradient(145deg, #111, #1a1a1f);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 40px 32px;
+      box-shadow: 0 0 30px rgba(241,196,15,0.15);
+      width: 90%;
+      max-width: 440px;
+      text-align: center;
+      position: relative;
+      z-index: 5;
+      animation: fadeInUp 0.6s ease;
+    }
+
+    .recover-logo img {
+      width: 90px;
+      height: 90px;
+      margin-bottom: 16px;
+      filter: drop-shadow(0 0 12px rgba(241,196,15,0.6));
+      animation: glow 3s ease-in-out infinite;
+    }
+
+    h2 {
+      color: var(--gold);
+      margin-bottom: 16px;
+      font-size: 22px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .subtitle {
+      color: #bbb;
+      font-size: 14px;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    input {
+      width: 100%;
+      margin: 10px 0;
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: #0f0f12;
+      color: #fff;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(241,196,15,0.15);
+    }
+
+    input.error {
+      border-color: #e74c3c;
+      animation: shake 0.3s ease;
+    }
+
+    input.success {
+      border-color: #2ecc71;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    /* Indicador de força de senha */
+    .password-strength {
+      margin: 5px 0 10px;
+      height: 4px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      display: none;
+    }
+
+    .password-strength.show {
+      display: block;
+    }
+
+    .password-strength-bar {
+      height: 100%;
+      width: 0%;
+      transition: all 0.3s ease;
+      border-radius: 10px;
+    }
+
+    .password-strength.weak .password-strength-bar {
+      width: 33%;
+      background: #e74c3c;
+    }
+
+    .password-strength.medium .password-strength-bar {
+      width: 66%;
+      background: #f39c12;
+    }
+
+    .password-strength.strong .password-strength-bar {
+      width: 100%;
+      background: #2ecc71;
+    }
+
+    .password-hint {
+      font-size: 12px;
+      color: #999;
+      text-align: left;
+      margin: -5px 0 10px;
+      display: none;
+    }
+
+    .password-hint.show {
+      display: block;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: #000;
+      margin-top: 14px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    button:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow: 0 0 15px rgba(241,196,15,0.4);
+    }
+
+    button:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    button .spinner {
+      display: none;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(0,0,0,0.3);
+      border-top-color: #000;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto;
+    }
+
+    button.loading .spinner {
+      display: block;
+    }
+
+    button.loading .btn-text {
+      display: none;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    a {
+      color: var(--gold);
+      display: block;
+      margin-top: 16px;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: #fff;
+    }
+
+    .note {
+      font-size: 13px;
+      color: #3498db;
+      margin-top: 20px;
+      text-align: center;
+      background: rgba(52, 152, 219, 0.1);
+      padding: 12px;
+      border-radius: 8px;
+      border-left: 3px solid #3498db;
+      line-height: 1.5;
+    }
+
+    /* Fundo com partículas douradas */
+    #tsparticles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    /* Toast Notifications */
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 16px 24px;
+      border-radius: 8px;
+      color: white;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      z-index: 10000;
+      animation: slideInRight 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      max-width: 400px;
+    }
+
+    .toast-success {
+      background: linear-gradient(135deg, #2ecc71, #27ae60);
+      border-left: 4px solid #1e8449;
+    }
+
+    .toast-error {
+      background: linear-gradient(135deg, #e74c3c, #c0392b);
+      border-left: 4px solid #a93226;
+    }
+
+    .toast-warning {
+      background: linear-gradient(135deg, #f39c12, #e67e22);
+      border-left: 4px solid #d68910;
+    }
+
+    .toast-info {
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      border-left: 4px solid #1f6391;
+    }
+
+    .toast-hide {
+      animation: slideOutRight 0.3s ease;
+    }
+
+    @keyframes slideInRight {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideOutRight {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes glow {
+      0%, 100% { filter: drop-shadow(0 0 12px rgba(241,196,15,0.6)); }
+      50% { filter: drop-shadow(0 0 20px rgba(241,196,15,0.9)); }
+    }
+
+    @media (max-width: 768px) {
+      .toast {
+        right: 10px;
+        left: 10px;
+        max-width: calc(100% - 20px);
+      }
+
+      .recover-container {
+        padding: 32px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="tsparticles"></div>
+
+  <div class="recover-container">
+    <div class="recover-logo">
+      <img src="img/logo/logo.png" alt="Summit Global Invest" />
+    </div>
+
+    <h2>Recuperar Senha</h2>
+    <p class="subtitle">
+      Informe seu e-mail cadastrado e crie uma nova senha segura
+    </p>
+
+    <form id="recover-form">
+      <input 
+        type="email" 
+        id="recover-email" 
+        placeholder="E-mail cadastrado *" 
+        required
+        aria-label="E-mail"
+        autocomplete="email"
+      />
+      
+      <input 
+        type="password" 
+        id="new-password" 
+        placeholder="Nova senha *" 
+        required
+        aria-label="Nova Senha"
+        autocomplete="new-password"
+        minlength="6"
+      />
+      
+      <div class="password-strength" id="password-strength">
+        <div class="password-strength-bar"></div>
+      </div>
+      <div class="password-hint" id="password-hint"></div>
+      
+      <input 
+        type="password" 
+        id="confirm-password" 
+        placeholder="Confirmar nova senha *" 
+        required
+        aria-label="Confirmar Senha"
+        autocomplete="new-password"
+      />
+
+      <button type="submit" id="recover-btn">
+        <span class="btn-text">Redefinir Senha</span>
+        <div class="spinner"></div>
+      </button>
+    </form>
+
+    <a href="login.html">Voltar ao login</a>
+
+    <p class="note">
+      ℹ️ Esta recuperação funciona localmente. Em produção, será enviado um link por e-mail com token de segurança.
+    </p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+  <script src="cliente/js/auth.js"></script>
+  <script>
+    // ============================================
+    // TOAST NOTIFICATIONS
+    // ============================================
+    function showToast(message, type = 'success') {
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+      toast.textContent = message;
+      
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.add('toast-hide');
+        setTimeout(() => toast.remove(), 300);
+      }, 4000); // 4 segundos para ler mensagens mais longas
+    }
+
+    // ============================================
+    // VALIDAÇÃO DE EMAIL EM TEMPO REAL
+    // ============================================
+    const emailInput = document.getElementById("recover-email");
+    
+    emailInput.addEventListener("blur", () => {
+      const email = emailInput.value.trim();
+      
+      if (email) {
+        const isValid = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+        
+        if (isValid) {
+          emailInput.classList.remove("error");
+          emailInput.classList.add("success");
+          
+          // Verifica se email existe no sistema
+          checkEmailExists(email);
+        } else {
+          emailInput.classList.remove("success");
+          emailInput.classList.add("error");
+          showToast("⚠️ E-mail inválido", "warning");
+        }
+      }
+    });
+
+    // ============================================
+    // VERIFICAR SE EMAIL EXISTE
+    // ============================================
+    function checkEmailExists(email) {
+      try {
+        const users = JSON.parse(localStorage.getItem("summit_users") || "[]");
+        const userExists = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+        
+        if (!userExists) {
+          emailInput.classList.remove("success");
+          emailInput.classList.add("error");
+          showToast("⚠️ E-mail não encontrado no sistema", "warning");
+        } else {
+          showToast("✓ E-mail encontrado", "info");
+        }
+      } catch (error) {
+        console.warn("Erro ao verificar email:", error);
+      }
+    }
+
+    // ============================================
+    // INDICADOR DE FORÇA DE SENHA
+    // ============================================
+    const passwordInput = document.getElementById("new-password");
+    const strengthIndicator = document.getElementById("password-strength");
+    const passwordHint = document.getElementById("password-hint");
+
+    passwordInput.addEventListener("input", () => {
+      const password = passwordInput.value;
+      
+      if (password.length === 0) {
+        strengthIndicator.classList.remove("show", "weak", "medium", "strong");
+        passwordHint.classList.remove("show");
+        return;
+      }
+
+      strengthIndicator.classList.add("show");
+      passwordHint.classList.add("show");
+
+      // Calcula força
+      let strength = 0;
+      
+      if (password.length >= 6) strength++;
+      if (password.length >= 10) strength++;
+      if (/[0-9]/.test(password)) strength++;
+      if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+      if (/[^a-zA-Z0-9]/.test(password)) strength++;
+
+      // Atualiza indicador
+      strengthIndicator.classList.remove("weak", "medium", "strong");
+      
+      if (strength <= 2) {
+        strengthIndicator.classList.add("weak");
+        passwordHint.textContent = "⚠️ Senha fraca - adicione números e letras";
+        passwordHint.style.color = "#e74c3c";
+      } else if (strength <= 4) {
+        strengthIndicator.classList.add("medium");
+        passwordHint.textContent = "✓ Senha média - considere adicionar caracteres especiais";
+        passwordHint.style.color = "#f39c12";
+      } else {
+        strengthIndicator.classList.add("strong");
+        passwordHint.textContent = "✓✓ Senha forte!";
+        passwordHint.style.color = "#2ecc71";
+      }
+    });
+
+    // ============================================
+    // VALIDAÇÃO DE CONFIRMAÇÃO DE SENHA
+    // ============================================
+    const confirmPasswordInput = document.getElementById("confirm-password");
+
+    confirmPasswordInput.addEventListener("blur", () => {
+      const password = passwordInput.value;
+      const confirm = confirmPasswordInput.value;
+
+      if (confirm && password !== confirm) {
+        confirmPasswordInput.classList.add("error");
+        showToast("⚠️ As senhas não coincidem", "warning");
+      } else if (confirm) {
+        confirmPasswordInput.classList.remove("error");
+        confirmPasswordInput.classList.add("success");
+      }
+    });
+
+    // ============================================
+    // VALIDAÇÕES CLIENT-SIDE
+    // ============================================
+    function validateRecoverForm() {
+      const email = emailInput.value.trim();
+      const newPassword = passwordInput.value.trim();
+      const confirm = confirmPasswordInput.value.trim();
+
+      // Remove classes error anteriores
+      document.querySelectorAll("input").forEach(input => {
+        input.classList.remove("error");
+      });
+
+      // Valida email
+      if (!email) {
+        emailInput.classList.add("error");
+        showToast("⚠️ Informe seu e-mail", "warning");
+        emailInput.focus();
+        return false;
+      }
+
+      const emailValid = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+      if (!emailValid) {
+        emailInput.classList.add("error");
+        showToast("⚠️ E-mail inválido", "warning");
+        emailInput.focus();
+        return false;
+      }
+
+      // Valida nova senha
+      if (!newPassword) {
+        passwordInput.classList.add("error");
+        showToast("⚠️ Informe a nova senha", "warning");
+        passwordInput.focus();
+        return false;
+      }
+
+      if (newPassword.length < 6) {
+        passwordInput.classList.add("error");
+        showToast("⚠️ A nova senha deve ter no mínimo 6 caracteres", "warning");
+        passwordInput.focus();
+        return false;
+      }
+
+      if (!/[0-9]/.test(newPassword)) {
+        passwordInput.classList.add("error");
+        showToast("⚠️ A senha deve conter pelo menos um número", "warning");
+        passwordInput.focus();
+        return false;
+      }
+
+      // Valida confirmação
+      if (!confirm) {
+        confirmPasswordInput.classList.add("error");
+        showToast("⚠️ Confirme a nova senha", "warning");
+        confirmPasswordInput.focus();
+        return false;
+      }
+
+      if (newPassword !== confirm) {
+        confirmPasswordInput.classList.add("error");
+        showToast("⚠️ As senhas não coincidem", "warning");
+        confirmPasswordInput.focus();
+        return false;
+      }
+
+      return true;
+    }
+
+    // ============================================
+    // PROCESSO DE RECUPERAÇÃO (ASYNC)
+    // ============================================
+    async function handleRecover(e) {
+      e.preventDefault();
+      
+      console.log("🔄 Iniciando recuperação de senha...");
+
+      // Validação client-side
+      if (!validateRecoverForm()) {
+        return;
+      }
+
+      const email = emailInput.value.trim();
+      const newPassword = passwordInput.value.trim();
+      const recoverBtn = document.getElementById("recover-btn");
+
+      // Desabilita botão e mostra loading
+      recoverBtn.disabled = true;
+      recoverBtn.classList.add("loading");
+
+      try {
+        console.log("📡 Processando recuperação...");
+
+        // Aguarda hash assíncrono
+        const result = await recoverPassword(email, newPassword);
+
+        if (!result.ok) {
+          console.warn("❌ Recuperação falhou:", result.msg);
+          showToast(result.msg, "error");
+          
+          if (result.msg.includes("não encontrado")) {
+            emailInput.focus();
+          }
+          
+        } else {
+          console.log("✅ Senha redefinida com sucesso");
+          showToast("✅ Senha redefinida com sucesso!", "success");
+          
+          // Limpa formulário
+          document.getElementById("recover-form").reset();
+          strengthIndicator.classList.remove("show");
+          passwordHint.classList.remove("show");
+          
+          // Redireciona para login após 2 segundos
+          setTimeout(() => {
+            console.log("🚀 Redirecionando para login...");
+            window.location.href = "login.html";
+          }, 2000);
+        }
+
+      } catch (error) {
+        console.error("❌ Erro no processo de recuperação:", error);
+        showToast("❌ Erro ao processar recuperação. Tente novamente.", "error");
+      } finally {
+        // Reabilita botão
+        recoverBtn.disabled = false;
+        recoverBtn.classList.remove("loading");
+      }
+    }
+
+    // Bind do formulário
+    document.getElementById("recover-form").addEventListener("submit", handleRecover);
+
+    // ============================================
+    // TECLA ENTER FUNCIONAL
+    // ============================================
+    document.querySelectorAll("input").forEach(input => {
+      input.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          document.getElementById("recover-form").dispatchEvent(new Event("submit"));
+        }
+      });
+    });
+
+    // ============================================
+    // PARTÍCULAS DE FUNDO
+    // ============================================
+    const isMobile = window.innerWidth <= 768;
+    
+    tsParticles.load("tsparticles", {
+      background: { color: "transparent" },
+      particles: {
+        number: { 
+          value: isMobile ? 15 : 30,
+          density: {
+            enable: true,
+            value_area: 1000
+          }
+        },
+        color: { value: "#f1c40f" },
+        opacity: { 
+          value: 0.4,
+          random: true,
+          anim: {
+            enable: true,
+            speed: 0.5,
+            opacity_min: 0.1
+          }
+        },
+        size: { 
+          value: isMobile ? 2 : 3,
+          random: true
+        },
+        move: { 
+          enable: true, 
+          speed: isMobile ? 0.5 : 0.8,
+          direction: "none",
+          random: true,
+          out_mode: "out"
+        },
+        line_linked: {
+          enable: !isMobile,
+          distance: 150,
+          color: "#f1c40f",
+          opacity: 0.2,
+          width: 1
+        },
+        shape: { type: "circle" }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: {
+            enable: !isMobile,
+            mode: "repulse"
+          },
+          resize: true
+        },
+        modes: {
+          repulse: {
+            distance: 100,
+            duration: 0.4
+          }
+        }
+      },
+      retina_detect: true,
+      fps_limit: isMobile ? 30 : 60
+    }).then(() => {
+      console.log("🎨 Partículas carregadas");
+    });
+
+    // ============================================
+    // PREVENÇÃO DE ERROS COMUNS
+    // ============================================
+    
+    // Verifica se auth.js foi carregado
+    if (typeof recoverPassword !== 'function') {
+      console.error("❌ ERRO CRÍTICO: auth.js não foi carregado!");
+      showToast("❌ Erro ao carregar sistema de autenticação", "error");
+      
+      // Desabilita botão
+      document.getElementById("recover-btn").disabled = true;
+      document.getElementById("recover-btn").innerHTML = "Sistema Indisponível";
+    }
+
+    // ============================================
+    // FOCUS AUTOMÁTICO NO PRIMEIRO CAMPO
+    // ============================================
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        emailInput.focus();
+      }, 300);
+    });
+
+    console.log("✅ Sistema de recuperação v2.1 pronto");
+  </script>
+</body>
+</html>

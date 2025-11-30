@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plano de Carreira — Summit Global</title>
+  <link rel="stylesheet" href="dashboard.css">
+  <style>
+    body {
+      background: #0a0a0f;
+      color: #fff;
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+      margin: 0;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    h1 {
+      color: var(--gold, #f1c40f);
+      text-align: center;
+      margin-bottom: 16px;
+      font-size: clamp(24px, 5vw, 36px);
+      text-shadow: 0 0 10px rgba(255, 204, 0, 0.3);
+    }
+
+    .subtitle {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 30px;
+      opacity: 0.85;
+      line-height: 1.6;
+      font-size: clamp(14px, 2.5vw, 16px);
+    }
+
+    /* ===== TIMELINE ===== */
+    .career-timeline {
+      display: flex;
+      overflow-x: auto;
+      gap: 10px;
+      justify-content: flex-start;
+      margin-bottom: 30px;
+      padding: 10px 0;
+      scrollbar-width: thin;
+      scrollbar-color: #f1c40f #1a1a2e;
+    }
+
+    .career-timeline::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .career-timeline::-webkit-scrollbar-track {
+      background: #1a1a2e;
+      border-radius: 10px;
+    }
+
+    .career-timeline::-webkit-scrollbar-thumb {
+      background: #f1c40f;
+      border-radius: 10px;
+    }
+
+    .career-step {
+      flex: 0 0 auto;
+      background: linear-gradient(135deg, #1a1a2e, #111);
+      border-radius: 20px;
+      padding: 10px 20px;
+      font-weight: 700;
+      color: #ffd700;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s;
+      white-space: nowrap;
+      font-size: clamp(12px, 2vw, 14px);
+      cursor: pointer;
+    }
+
+    .career-step:hover {
+      transform: translateY(-3px);
+      background: linear-gradient(135deg, #262645, #141414);
+      box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
+    }
+
+    /* ===== GRID DE CARDS ===== */
+    .career-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      padding-bottom: 50px;
+    }
+
+    .career-card {
+      background: linear-gradient(145deg, #121212, #0c0c0f);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      transition: all 0.3s;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .career-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(241, 196, 15, 0.1), transparent);
+      transition: left 0.6s;
+    }
+
+    .career-card:hover::before {
+      left: 100%;
+    }
+
+    .career-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
+      border-color: rgba(241, 196, 15, 0.5);
+    }
+
+    .career-card.destaque {
+      border: 2px solid #a875ff;
+      box-shadow: 0 0 20px rgba(168, 117, 255, 0.3);
+    }
+
+    .career-card.elite {
+      border: 2px solid #ffd700;
+      box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+    }
+
+    .career-card h2 {
+      font-size: clamp(18px, 3vw, 22px);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: #f1c40f;
+      font-weight: 700;
+    }
+
+    .rank-icon {
+      font-size: clamp(28px, 5vw, 36px);
+      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+    }
+
+    .reward {
+      color: #ffd700;
+      font-weight: 600;
+      margin: 12px 0;
+      font-size: clamp(14px, 2.5vw, 16px);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid #555;
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 600;
+      font-size: 14px;
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .btn-ghost:hover {
+      background: linear-gradient(135deg, #f1c40f, #d4ac0d);
+      color: #000;
+      border-color: #f1c40f;
+      transform: translateY(-2px);
+    }
+
+    .req-box {
+      display: none;
+      margin-top: 16px;
+      text-align: left;
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 14px;
+      border-radius: 8px;
+      border-left: 3px solid #f1c40f;
+    }
+
+    .req-box p {
+      margin: 8px 0;
+      line-height: 1.5;
+    }
+
+    .req-box strong {
+      color: #f1c40f;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      body {
+        padding: 12px;
+      }
+
+      .career-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .career-card {
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .career-step {
+        padding: 8px 14px;
+        font-size: 12px;
+      }
+
+      .career-card h2 {
+        font-size: 18px;
+      }
+
+      .rank-icon {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <section class="section" id="carreira">
+    <h1>🎖 Plano de Carreira</h1>
+    <p class="subtitle">
+      Conquiste sua posição no topo e desbloqueie prêmios lendários.<br>
+      Cada nível exige dedicação, volume de equipe e investimento próprio.<br>
+      No topo, apenas os verdadeiros <strong>Diamantes</strong> permanecem.
+    </p>
+
+    <!-- Timeline horizontal -->
+    <div class="career-timeline">
+      <div class="career-step">💎 Cristal</div>
+      <div class="career-step">🟢 Jade</div>
+      <div class="career-step">⚪ Pérola</div>
+      <div class="career-step">🔷 Safira</div>
+      <div class="career-step">💚 Esmeralda</div>
+      <div class="career-step">❤️ Rubi</div>
+      <div class="career-step">💠 Diamante</div>
+      <div class="career-step">🔵 Diamante Azul</div>
+      <div class="career-step">🟢 Diamante Verde</div>
+      <div class="career-step">🟣 Diamante Roxo</div>
+      <div class="career-step">🔴 Diamante Vermelho</div>
+      <div class="career-step">⚪ Diamante Platina</div>
+      <div class="career-step">⚫ Diamante Negro</div>
+      <div class="career-step">⚔️ DN Duplo</div>
+      <div class="career-step">👑 DN Triplo</div>
+    </div>
+
+    <!-- Grid de Cards -->
+    <div class="career-grid">
+      
+      <!-- Cristal -->
+      <div class="career-card">
+        <h2><span class="rank-icon">💎</span> Cristal</h2>
+        <p class="reward">🎁 Bônus R$ 500</p>
+        <button class="btn-ghost" onclick="toggleReq('req-cristal')">Ver Requisitos</button>
+        <div id="req-cristal" class="req-box">
+          <p><strong>📌 Investimento mínimo:</strong> R$ 500</p>
+          <p><strong>👥 Indicações diretas:</strong> 2</p>
+          <p><strong>📈 Volume de equipe:</strong> R$ 5.000</p>
+          <p><strong>💸 Comissão:</strong> até 1º nível (10%)</p>
+        </div>
+      </div>
+
+      <!-- Jade -->
+      <div class="career-card">
+        <h2><span class="rank-icon">🟢</span> Jade</h2>
+        <p class="reward">🎁 Bônus R$ 750</p>
+        <button class="btn-ghost" onclick="toggleReq('req-jade')">Ver Requisitos</button>
+        <div id="req-jade" class="req-box">
+          <p><strong>📌 Investimento mínimo:</strong> R$ 750</p>
+          <p><strong>👥 Indicações diretas:</strong> 2</p>
+          <p><strong>📈 Volume de equipe:</strong> R$ 7.500</p>
+          <p><strong>💸 Comissão:</strong> até 1º nível (10%)</p>
+        </div>
+      </div>
+
+      <!-- Pérola -->
+      <div class="career-card">
+        <h2><span class="rank-icon">⚪</span> Pérola</h2>
+        <p class="reward">🎁 Bônus R$ 1.000</p>
+        <button class="btn-ghost" onclick="toggleReq('req-perola')">Ver Requisitos</button>
+        <div id="req-perola" class="req-box">
+          <p><strong>📌 Investimento mínimo:</strong> R$ 1.000</p>
+          <p><strong>👥 Indicações diretas:</strong> 2</p>
+          <p><strong>📈 Volume de equipe:</strong> R$ 10.000</p>
+          <p><strong>💸 Comissão:</strong> até 2º nível (8%)</p>
+        </div>
+      </div>
+
+      <!-- Safira -->
+      <div class="career-card">
+        <h2><span class="rank-icon">🔷</span> Safira</h2>
+        <p class="reward">🎁 Smartphone</p>
+        <button class="btn-ghost" onclick="toggleReq('req-safira')">Ver Requisitos</button>
+        <div id="req-safira" class="req-box">
+          <p><strong>📌 Investimento mínimo:</strong> R$ 1.500</p>
+          <p><strong>👥 Indicações diretas:</strong> 3</p>
+          <p><strong>📈 Volume de equipe:</strong> R$ 20.000</p>
+          <p><strong>💸 Comissão:</strong> até 2º nível (5%)</p>
+        </div>
+      </div>
+
+      <!-- Esmeralda -->
+      <div class="career-card">
+        <h2><span class="rank-icon">💚</span> Esmeralda</h2>
+        <p class="reward">🎁 Notebook Gamer</p>
+        <button class="btn-ghost" onclick="toggleReq('req-esmeralda')">Ver Requisitos</button>
+        <div id="req-esmeralda" class="req-box">
+          <p><strong>📌 Investimento mínimo:</strong> R$ 2.500</p>
+          <p><strong>👥 Indicações diretas:</strong> 4</p>
+          <p><strong>📈 Volume de equipe:</strong> R$ 50.000</p>
+          <p><strong>💸 Comissão:</strong> até 3º nível (3%)</p>
+        </div>
+      </div>
+
+      <!-- Rubi -->
+      <div class="career-card">
+        <h2><span class="rank-icon">❤️</span> Rubi</h2>
+        <p class="reward">🎁 Moto 125cc</p>
+        <button class="btn-ghost" onclick="toggleReq('req-rubi')">Ver Requisitos</button>
+        <div id="req-rubi" class="req-box">
+          <p><strong>📌 Investimento mínimo:</strong> R$ 5.000</p>
+          <p><strong>👥 Indicações diretas:</strong> 5</p>
+          <p><strong>📈 Volume de equipe:</strong> R$ 150.000</p>
+          <p><strong>💸 Comissão:</strong> até 4º nível (2%)</p>
+        </div>
+      </div>
+
+      <!-- Diamante -->
+      <div class="career-card destaque">
+        <h2><span class="rank-icon">💠</span> Diamante</h2>
+        <p class="reward">🎁 Carro Popular 0km</p>
+        <button class="btn-ghost" onclick="toggleReq('req-diamante')">Ver Requisitos</button>
+        <div id="req-diamante" class="req-box">
+          <p><strong>📌 Investimento mínimo:</strong> R$ 10.000</p>
+          <p><strong>👥 Indicações diretas:</strong> 6</p>
+          <p><strong>📈 Volume de equipe:</strong> R$ 500.000</p>
+          <p><strong>💸 Comissão:</strong> até 5º nível (1%)</p>
+        </div>
+      </div>
+
+      <!-- Diamante Azul -->
+      <div class="career-card">
+        <h2><span class="rank-icon">🔵</span> Diamante Azul</h2>
+        <p class="reward">🎁 Viagem Internacional</p>
+        <button class="btn-ghost" onclick="toggleReq('req-diamante-azul')">Ver Requisitos</button>
+        <div id="req-diamante-azul" class="req-box">
+          <p><strong>📌 Investimento mínimo:</strong> R$ 25.000</p>
+          <p><strong>👥 Indicações diretas:</strong> 7</p>
+          <p><strong>📈 Volume de equipe:</strong> R$ 1.500.000</p>
+          <p><strong>💸 Comissão:</strong> até 6º nível (1%)</p>
+        </div>
+      </div>
+
+      <!-- Diamante Verde -->
+      <div class="career-card">
+        <h2><span class="rank-icon">🟢</span> Diamante Verde</h2>
+        <p class="reward">🎁 Carro de Luxo Médio</p>
+        <button class="btn-ghost" onclick="toggleReq('req-diamante-verde')">Ver Requisitos</button>
+        <div id="req-diamante-verde" class="req-box">
+          <p><strong>📌 Investimento mínimo:</strong> R$ 40.000</p>
+          <p><strong>👥 Indicações diretas:</strong> 8</p>
+          <p><strong>📈 Volume de equipe:</strong> R$ 3.000.000</p>
+          <p><strong>💸 Comissão:</strong> até 7º nível (1%)</p>
+        </div>
+      </div>
+
+      <!-- Diamante Roxo -->
+      <div class="career-card destaque">
+        <h2><span class="rank-icon">🟣</span> Diamante Roxo</h2>
+        <p class="reward">🎁 Apartamento R$ 300.000</p>
+        <button class="btn-ghost" onclick="toggleReq('req-diamante-roxo')">Ver Requisitos</button>
+        <div id="req-diamante-roxo" class="req-box">
+          <p><strong>📌 Investimento mínimo:</strong> R$ 60.000</p>
+          <p><strong>👥 Indicações diretas:</strong> 10</p>
+          <p><strong>📈 Volume de equipe:</strong> R$ 6.000.000</p>
+          <p><strong>💸 Comissão:</strong> até 8º nível (0,5%)</p>
+        </div>
+      </div>
+
+      <!-- Diamante Vermelho -->
+      <div class="career-card">
+        <h2><span class="rank-icon">🔴</span> Diamante Vermelho</h2>
+        <p class="reward">🎁 Carro Esportivo</p>
+        <button class="btn-ghost" onclick="toggleReq('req-diamante-vermelho')">Ver Requisitos</button>
+        <div id="req-diamante-vermelho" class="req-box">
+          <p><strong>📌 Investimento mínimo:</strong> R$ 80.000</p>
+          <p><strong>👥 Indicações diretas:</strong> 12</p>
+          <p><strong>📈 Volume de equipe:</strong> R$ 9.000.000</p>
+          <p><strong>💸 Comissão:</strong> até 9º nível (0,5%)</p>
+        </div>
+      </div>
+
+      <!-- Diamante Platina -->
+      <div class="career-card elite">
+        <h2><span class="rank-icon">⚪</span> Diamante Platina</h2>
+        <p class="reward">🎁 Cobertura ou R$ 1.000.000</p>
+        <button class="btn-ghost" onclick="toggleReq('req-diamante-platina')">Ver Requisitos</button>
+        <div id="req-diamante-platina" class="req-box">
+          <p><strong>📌 Investimento mínimo:</strong> R$ 100.000</p>
+          <p><strong>👥 Indicações diretas:</strong> 15</p>
+          <p><strong>📈 Volume de equipe:</strong> R$ 15.000.000</p>
+          <p><strong>💸 Comissão:</strong> até 10º nível (0,5%)</p>
+        </div>
+      </div>
+
+      <!-- Diamante Negro -->
+      <div class="career-card elite">
+        <h2><span class="rank-icon">⚫</span> Diamante Negro</h2>
+        <p class="reward">🎁 Supercarro</p>
+        <button class="btn-ghost" onclick="toggleReq('req-diamante-negro')">Ver Requisitos</button>
+        <div id="req-diamante-negro" class="req-box">
+          <p><strong>📌 Investimento mínimo:</strong> R$ 150.000</p>
+          <p><strong>👥 Indicações diretas:</strong> 18</p>
+          <p><strong>📈 Volume de equipe:</strong> R$ 20.000.000</p>
+          <p><strong>💸 Comissão:</strong> até 11º nível (0,5%)</p>
+        </div>
+      </div>
+
+      <!-- Diamante Negro Duplo -->
+      <div class="career-card elite">
+        <h2><span class="rank-icon">⚔️</span> Diamante Negro Duplo</h2>
+        <p class="reward">🎁 Mansão R$ 3.000.000</p>
+        <button class="btn-ghost" onclick="toggleReq('req-diamante-duplo')">Ver Requisitos</button>
+        <div id="req-diamante-duplo" class="req-box">
+          <p><strong>📌 Investimento mínimo:</strong> R$ 200.000</p>
+          <p><strong>👥 Indicações diretas:</strong> 20</p>
+          <p><strong>📈 Volume de equipe:</strong> R$ 30.000.000</p>
+          <p><strong>💸 Comissão:</strong> até 12º nível (0,5%)</p>
+        </div>
+      </div>
+
+      <!-- Diamante Negro Triplo -->
+      <div class="career-card elite">
+        <h2><span class="rank-icon">👑</span> Diamante Negro Triplo</h2>
+        <p class="reward">🎁 Jato Executivo ou R$ 10.000.000</p>
+        <button class="btn-ghost" onclick="toggleReq('req-diamante-triplo')">Ver Requisitos</button>
+        <div id="req-diamante-triplo" class="req-box">
+          <p><strong>📌 Investimento mínimo:</strong> R$ 300.000</p>
+          <p><strong>👥 Indicações diretas:</strong> 25</p>
+          <p><strong>📈 Volume de equipe:</strong> R$ 50.000.000</p>
+          <p><strong>💸 Comissão:</strong> até 13º nível (0,5%)</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+    // Função para mostrar/ocultar requisitos
+    function toggleReq(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      
+      if (el.style.display === "block") {
+        el.style.display = "none";
+      } else {
+        // Fecha todos os outros
+        document.querySelectorAll('.req-box').forEach(box => {
+          box.style.display = "none";
+        });
+        // Abre o selecionado
+        el.style.display = "block";
+      }
+    }
+  </script>
+</body>
+</html>

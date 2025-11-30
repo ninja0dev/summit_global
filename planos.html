@@ -1,0 +1,112 @@
+<!-- cliente/sections/planos.html -->
+<section class="section" id="planos">
+  <h2 style="color:var(--gold); text-align:center; margin-bottom:20px;">💎 Planos de Investimento (Premium)</h2>
+
+  <!-- Grid dos Planos -->
+  <div class="planos-container">
+    <div class="plano-card">
+      <div class="plano-head">
+        <span class="plano-title">Start</span>
+        <span class="plano-tag">R$ 300 – 999</span>
+      </div>
+      <div class="plano-rate">0,30% ao dia • ~15 meses</div>
+      <ul>
+        <li>Dobra em ~15 meses</li>
+        <li>Rendimento mensal: ~6,6%</li>
+      </ul>
+      <button class="btn-primary">Investir Agora</button>
+    </div>
+
+    <div class="plano-card">
+      <div class="plano-head">
+        <span class="plano-title">Bronze</span>
+        <span class="plano-tag">R$ 1.000 – 4.999</span>
+      </div>
+      <div class="plano-rate">0,40% ao dia • ~12 meses</div>
+      <ul>
+        <li>Dobra em ~12 meses</li>
+        <li>Rendimento mensal: ~8,8%</li>
+      </ul>
+      <button class="btn-primary">Investir Agora</button>
+    </div>
+
+    <div class="plano-card">
+      <div class="plano-head">
+        <span class="plano-title">Prata</span>
+        <span class="plano-tag">R$ 5.000 – 9.999</span>
+      </div>
+      <div class="plano-rate">0,50% ao dia • ~10 meses</div>
+      <ul>
+        <li>Dobra em ~10 meses</li>
+        <li>Rendimento mensal: ~11%</li>
+      </ul>
+      <button class="btn-primary">Investir Agora</button>
+    </div>
+
+    <div class="plano-card destaque">
+      <div class="plano-head">
+        <span class="plano-title">Ouro</span>
+        <span class="plano-tag">R$ 10.000 – 24.999</span>
+      </div>
+      <div class="plano-rate">0,60% ao dia • ~8,5 meses</div>
+      <ul>
+        <li>Dobra em ~8,5 meses</li>
+        <li>Rendimento mensal: ~13%</li>
+      </ul>
+      <button class="btn-primary">Investir Agora</button>
+    </div>
+
+    <div class="plano-card">
+      <div class="plano-head">
+        <span class="plano-title">Platina</span>
+        <span class="plano-tag">R$ 25.000 – 49.999</span>
+      </div>
+      <div class="plano-rate">0,70% ao dia • ~7 meses</div>
+      <ul>
+        <li>Dobra em ~7 meses</li>
+        <li>Rendimento mensal: ~15%</li>
+      </ul>
+      <button class="btn-primary">Investir Agora</button>
+    </div>
+
+    <div class="plano-card">
+      <div class="plano-head">
+        <span class="plano-title">Diamante</span>
+        <span class="plano-tag">R$ 50.000+</span>
+      </div>
+      <div class="plano-rate">0,76% ao dia • 6 meses</div>
+      <ul>
+        <li>Dobra em 6 meses</li>
+        <li>Rendimento mensal: ~16,7%</li>
+      </ul>
+      <button class="btn-primary">Investir Agora</button>
+    </div>
+  </div>
+
+  <!-- Calculadora Premium -->
+  <div class="card" style="margin-top:40px;">
+    <h3 style="color:var(--gold); text-align:center;">📊 Calculadora de Rendimentos</h3>
+    <div class="simulador">
+      <label for="sim-valor">Valor do Investimento (R$):</label>
+      <input type="number" id="sim-valor" placeholder="Ex.: 10000">
+
+      <label for="sim-plano">Escolha o Plano:</label>
+      <select id="sim-plano">
+        <option value="">-- selecione --</option>
+        <option value="0.003">Start — 0,30% ao dia</option>
+        <option value="0.004">Bronze — 0,40% ao dia</option>
+        <option value="0.005">Prata — 0,50% ao dia</option>
+        <option value="0.006">Ouro — 0,60% ao dia</option>
+        <option value="0.007">Platina — 0,70% ao dia</option>
+        <option value="0.0076">Diamante — 0,76% ao dia</option>
+      </select>
+
+      <label for="sim-meses">Período (meses):</label>
+      <input type="number" id="sim-meses" placeholder="Ex.: 6">
+
+      <button class="btn-primary" id="sim-button">Calcular</button>
+      <div id="sim-result" class="sim-result"></div>
+      <canvas id="sim-chart" height="140" style="margin-top:16px;"></canvas>
+    </div>
+  </div>
+</section>

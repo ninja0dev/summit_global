@@ -1,0 +1,161 @@
+<section class="section" id="saques">
+  <h2 style="color:var(--gold); text-align:center; margin-bottom:20px;">🏦 Solicitação de Saques</h2>
+
+  <!-- Resumo de Saldos -->
+  <div class="cards" style="margin-bottom:30px;">
+    <div class="card">
+      <h4>💰 Saldo de Lucros</h4>
+      <p style="font-size:20px; color:var(--gold);">R$ 5.200</p>
+    </div>
+    <div class="card">
+      <h4>🎯 Comissão de Rede</h4>
+      <p style="font-size:20px; color:#2ecc71;">R$ 1.450</p>
+    </div>
+    <div class="card">
+      <h4>🎁 Bônus</h4>
+      <p style="font-size:20px; color:#3498db;">R$ 300</p>
+    </div>
+  </div>
+
+  <!-- Formulário de Saque -->
+  <div class="card" style="margin-bottom:30px;">
+    <h3 style="color:var(--gold);">📤 Nova Solicitação</h3>
+    <form id="saque-form" style="margin-top:14px;">
+      
+      <label for="saldoTipo">Selecione o tipo de saldo:</label>
+      <select id="saldoTipo" required>
+        <option value="">-- Escolha --</option>
+        <option value="lucros">💰 Lucros</option>
+        <option value="comissao">🎯 Comissão</option>
+        <option value="bonus">🎁 Bônus</option>
+      </select>
+
+      <label for="valorSaque">Valor a sacar:</label>
+      <input type="number" id="valorSaque" min="100" step="50" placeholder="Mínimo R$100" required>
+
+      <label for="metodo">Método de saque:</label>
+      <select id="metodo" required>
+        <option value="">-- Escolha --</option>
+        <option value="usdt">USDT (TRC20)</option>
+        <option value="pix">PIX (Banco)</option>
+      </select>
+
+      <label for="destino">Endereço / Chave PIX:</label>
+      <input type="text" id="destino" placeholder="Cole sua carteira USDT ou chave PIX" required>
+
+      <button type="submit" class="btn-primary" style="margin-top:16px;">🚀 Solicitar Saque</button>
+    </form>
+  </div>
+
+  <!-- Histórico -->
+  <div class="card" style="margin-bottom:30px;">
+    <h3 style="color:var(--gold);">📜 Histórico de Saques</h3>
+    <table style="width:100%; margin-top:12px; border-collapse:collapse; color:#ddd;">
+      <thead>
+        <tr style="background:#0b0b0d; color:var(--gold);">
+          <th style="padding:10px;">Data</th>
+          <th style="padding:10px;">Valor</th>
+          <th style="padding:10px;">Método</th>
+          <th style="padding:10px;">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:10px;">2025-09-28</td>
+          <td style="padding:10px;">R$ 800</td>
+          <td style="padding:10px;">USDT</td>
+          <td style="padding:10px; color:#f1c40f;">Pendente</td>
+        </tr>
+        <tr>
+          <td style="padding:10px;">2025-09-20</td>
+          <td style="padding:10px;">R$ 500</td>
+          <td style="padding:10px;">PIX</td>
+          <td style="padding:10px; color:#2ecc71;">Pago</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Gráficos -->
+  <div class="cards" style="margin-bottom:30px; display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+    <!-- Evolução -->
+    <div class="card">
+      <h3 style="color:var(--gold);">📊 Evolução dos Saques</h3>
+      <canvas id="saquesChart" height="160"></canvas>
+    </div>
+    <!-- Proporção -->
+    <div class="card">
+      <h3 style="color:var(--gold);">📈 Distribuição por Tipo de Saldo</h3>
+      <canvas id="saquesPie" height="160"></canvas>
+    </div>
+  </div>
+
+  <!-- Avisos -->
+  <div class="card" style="background:rgba(241,196,15,0.05); border:1px solid rgba(241,196,15,0.3);">
+    <h3 style="color:var(--gold);">⚠️ Regras Importantes</h3>
+    <ul style="color:#ddd; line-height:1.6;">
+      <li>✅ Saques disponíveis <strong>1x por semana</strong>.</li>
+      <li>✅ Valor mínimo: <strong>R$ 100</strong>.</li>
+      <li>✅ Taxa de saque: <strong>3%</strong> sobre o valor solicitado.</li>
+      <li>✅ Lucros, comissões e bônus são saldos independentes.</li>
+      <li>✅ Saques processados conforme fila e caixa disponível (40% de liquidez reservada).</li>
+    </ul>
+  </div>
+</section>
+
+<script>
+  // Envio do formulário
+  document.getElementById("saque-form").addEventListener("submit", function(e){
+    e.preventDefault();
+    alert("🚀 Solicitação de saque enviada com sucesso! Aguarde processamento.");
+  });
+
+  // Gráfico de Barras - Evolução
+  const ctxSaques = document.getElementById("saquesChart").getContext("2d");
+  new Chart(ctxSaques, {
+    type: "bar",
+    data: {
+      labels: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set"],
+      datasets: [{
+        label: "Valores sacados (R$)",
+        data: [500, 700, 1200, 1500, 1800, 2200, 2500, 2800, 3100],
+        backgroundColor: "rgba(241,196,15,0.6)",
+        borderColor: "#f1c40f",
+        borderWidth: 2,
+        borderRadius: 8
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { labels: { color: "#fff" } } },
+      scales: {
+        x: { ticks: { color: "#fff" }, grid: { color: "rgba(255,255,255,0.1)" } },
+        y: { ticks: { color: "#fff" }, grid: { color: "rgba(255,255,255,0.1)" } }
+      }
+    }
+  });
+
+  // Gráfico Doughnut - Distribuição
+  const ctxPie = document.getElementById("saquesPie").getContext("2d");
+  new Chart(ctxPie, {
+    type: "doughnut",
+    data: {
+      labels: ["Lucros", "Comissão", "Bônus"],
+      datasets: [{
+        data: [5200, 1450, 300],
+        backgroundColor: ["#f1c40f", "#2ecc71", "#3498db"],
+        borderColor: "#111",
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: "bottom",
+          labels: { color: "#fff" }
+        }
+      }
+    }
+  });
+</script>

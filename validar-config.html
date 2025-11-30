@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Validação CONFIG - Summit Global</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Courier New', monospace;
+      background: #000;
+      color: #0f0;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: #0a0a0a;
+      padding: 30px;
+      border: 2px solid #f1c40f;
+      border-radius: 10px;
+    }
+    
+    h1 {
+      color: #f1c40f;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 28px;
+      text-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
+    }
+    
+    .test-box {
+      background: #111;
+      padding: 20px;
+      margin: 15px 0;
+      border-left: 4px solid #f1c40f;
+      border-radius: 5px;
+    }
+    
+    .success { color: #0f0; }
+    .error { color: #f00; font-weight: bold; }
+    .warning { color: #f90; }
+    .info { color: #09f; }
+    
+    pre {
+      background: #000;
+      padding: 15px;
+      border-radius: 5px;
+      overflow-x: auto;
+      font-size: 11px;
+      max-height: 400px;
+      overflow-y: auto;
+      border: 1px solid #333;
+    }
+    
+    button {
+      background: linear-gradient(135deg, #f1c40f, #d4ac0d);
+      color: #000;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      margin: 10px 5px;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+    
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(241, 196, 15, 0.4);
+    }
+    
+    .result-summary {
+      text-align: center;
+      padding: 30px;
+      margin: 20px 0;
+      background: rgba(241, 196, 15, 0.05);
+      border-radius: 10px;
+    }
+    
+    .score {
+      font-size: 48px;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔍 VALIDAÇÃO CONFIG.JS - SUMMIT GLOBAL</h1>
+    
+    <div id="output"></div>
+    
+    <div style="text-align: center; margin-top: 30px;">
+      <button onclick="location.reload()">🔄 Recarregar</button>
+      <button onclick="window.location.href='login.html'">🔐 Login</button>
+      <button onclick="window.location.href='register.html'">📝 Registro</button>
+    </div>
+  </div>
+
+  <script>
+    // Executa testes imediatamente
+    (function() {
+      const output = document.getElementById('output');
+      let html = '';
+      let passed = 0;
+      let total = 0;
+      
+      // Carrega config.js via fetch (evita problemas de timing)
+      const script = document.createElement('script');
+      script.src = 'js/config.js?' + Date.now(); // Cache bust
+      
+      script.onload = function() {
+        setTimeout(runTests, 100);
+      };
+      
+      script.onerror = function() {
+        output.innerHTML = `
+          <div class="test-box">
+            <p class="error">❌ ERRO CRÍTICO: js/config.js não encontrado!</p>
+            <p class="warning">Verifique se o arquivo existe em: <code>js/config.js</code></p>
+            <p class="info">Caminho absoluto esperado: <code>${window.location.origin}/js/config.js</code></p>
+          </div>
+        `;
+      };
+      
+      document.head.appendChild(script);
+      
+      function runTests() {
+        // Verifica qual variável global foi criada
+        const cfg = window.CONFIG || window.SUMMIT_CONFIG;
+        
+        html += '<div class="test-box">';
+        html += '<h2 style="color:#3498db;">📦 1. VERIFICAÇÃO DE CARREGAMENTO</h2>';
+        
+        total++;
+        if (cfg) {
+          passed++;
+          html += '<p class="success">✅ CONFIG carregado com sucesso</p>';
+          html += `<p class="info">Variável global: ${window.CONFIG ? 'CONFIG' : 'SUMMIT_CONFIG'}</p>`;
+          html += `<p class="info">Tipo: ${typeof cfg}</p>`;
+        } else {
+          html += '<p class="error">❌ CONFIG não foi carregado</p>';
+          html += '<p class="warning">Nenhuma variável CONFIG ou SUMMIT_CONFIG encontrada</p>';
+        }
+        
+        html += '</div>';
+        
+        if (!cfg) {
+          output.innerHTML = html;
+          return;
+        }
+        
+        // Teste 2: Propriedades básicas
+        html += '<div class="test-box">';
+        html += '<h2 style="color:#3498db;">🔑 2. PROPRIEDADES BÁSICAS</h2>';
+        
+        const props = ['environment', 'version', 'apiURL', 'isDevelopment'];
+        props.forEach(prop => {
+          total++;
+          if (cfg[prop] !== undefined) {
+            passed++;
+            html += `<p class="success">✅ ${prop}: ${JSON.stringify(cfg[prop])}</p>`;
+          } else {
+            html += `<p class="error">❌ ${prop}: não encontrado</p>`;
+          }
+        });
+        
+        html += '</div>';
+        
+        // Teste 3: Objetos aninhados
+        html += '<div class="test-box">';
+        html += '<h2 style="color:#3498db;">📦 3. OBJETOS ANINHADOS</h2>';
+        
+        const objects = ['storage', 'auth', 'paths', 'api', 'plans', 'career'];
+        objects.forEach(obj => {
+          total++;
+          if (cfg[obj] && typeof cfg[obj] === 'object') {
+            passed++;
+            const keys = Object.keys(cfg[obj]).length;
+            html += `<p class="success">✅ ${obj}: ${keys} propriedades</p>`;
+          } else {
+            html += `<p class="error">❌ ${obj}: não encontrado</p>`;
+          }
+        });
+        
+        html += '</div>';
+        
+        // Teste 4: Métodos
+        html += '<div class="test-box">';
+        html += '<h2 style="color:#3498db;">⚙️ 4. MÉTODOS</h2>';
+        
+        const methods = ['getURL', 'getAssetPath', 'validate', 'getPlanByValue'];
+        methods.forEach(method => {
+          total++;
+          if (typeof cfg[method] === 'function') {
+            passed++;
+            html += `<p class="success">✅ ${method}()</p>`;
+          } else {
+            html += `<p class="error">❌ ${method}() não encontrado</p>`;
+          }
+        });
+        
+        html += '</div>';
+        
+        // Teste 5: Storage Keys (namespace)
+        html += '<div class="test-box">';
+        html += '<h2 style="color:#3498db;">💾 5. STORAGE KEYS</h2>';
+        
+        if (cfg.storage) {
+          Object.entries(cfg.storage).forEach(([key, value]) => {
+            total++;
+            if (value.startsWith('sg_v2_')) {
+              passed++;
+              html += `<p class="success">✅ ${key}: ${value}</p>`;
+            } else {
+              html += `<p class="warning">⚠️ ${key}: ${value} (sem namespace)</p>`;
+            }
+          });
+        }
+        
+        html += '</div>';
+        
+        // Teste 6: Validações funcionais
+        html += '<div class="test-box">';
+        html += '<h2 style="color:#3498db;">✅ 6. TESTES FUNCIONAIS</h2>';
+        
+        if (cfg.validate) {
+          // Teste username válido
+          total++;
+          const r1 = cfg.validate('username', 'teste123');
+          if (r1.valid) {
+            passed++;
+            html += '<p class="success">✅ Username "teste123" válido</p>';
+          } else {
+            html += '<p class="error">❌ Username "teste123" deveria ser válido</p>';
+          }
+          
+          // Teste email válido
+          total++;
+          const r2 = cfg.validate('email', 'test@email.com');
+          if (r2.valid) {
+            passed++;
+            html += '<p class="success">✅ Email "test@email.com" válido</p>';
+          } else {
+            html += '<p class="error">❌ Email deveria ser válido</p>';
+          }
+          
+          // Teste senha válida
+          total++;
+          const r3 = cfg.validate('password', 'senha123');
+          if (r3.valid) {
+            passed++;
+            html += '<p class="success">✅ Senha "senha123" válida</p>';
+          } else {
+            html += '<p class="error">❌ Senha deveria ser válida</p>';
+          }
+        }
+        
+        if (cfg.getPlanByValue) {
+          // Teste plano
+          total++;
+          const plan = cfg.getPlanByValue(15000);
+          if (plan && plan.label === 'Ouro') {
+            passed++;
+            html += `<p class="success">✅ R$ 15.000 → Plano ${plan.label}</p>`;
+          } else {
+            html += '<p class="error">❌ getPlanByValue(15000) falhou</p>';
+          }
+        }
+        
+        html += '</div>';
+        
+        // JSON Completo
+        html += '<div class="test-box">';
+        html += '<h2 style="color:#3498db;">📋 CONFIG COMPLETO (JSON)</h2>';
+        html += '<pre>' + JSON.stringify(cfg, null, 2) + '</pre>';
+        html += '</div>';
+        
+        // RESUMO FINAL
+        const percentage = Math.round((passed / total) * 100);
+        const status = percentage === 100 ? '🎉 PERFEITO!' : 
+                       percentage >= 80 ? '⚠️ BOM' : '❌ FALHOU';
+        const color = percentage === 100 ? '#0f0' : 
+                      percentage >= 80 ? '#f90' : '#f00';
+        
+        html = `
+          <div class="result-summary">
+            <h2 style="color:${color};">${status}</h2>
+            <div class="score" style="color:${color};">${passed}/${total}</div>
+            <p style="font-size:20px; color:#f1c40f;">${percentage}% dos testes passaram</p>
+            ${percentage === 100 ? '<p class="success" style="font-size:18px; margin-top:20px;">✅ Pronto para o PASSO 3!</p>' : ''}
+          </div>
+        ` + html;
+        
+        output.innerHTML = html;
+        
+        // Console log
+        console.log('═══════════════════════════════════');
+        console.log('🔍 VALIDAÇÃO CONFIG.JS');
+        console.log('═══════════════════════════════════');
+        console.log(`Resultado: ${passed}/${total} (${percentage}%)`);
+        console.log('CONFIG:', cfg);
+        console.log('═══════════════════════════════════');
+      }
+    })();
+  </script>
+</body>
+</html>

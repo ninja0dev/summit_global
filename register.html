@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Cadastro — Summit Global Invest</title>
+  <link rel="stylesheet" href="css/dashboard.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #0b0b0f 0%, #0a0a0e 100%);
+      color: #fff;
+      font-family: "Segoe UI", sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .register-container {
+      background: linear-gradient(145deg, #111, #1a1a1f);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 40px 32px;
+      box-shadow: 0 0 30px rgba(241,196,15,0.15);
+      width: 90%;
+      max-width: 480px;
+      text-align: center;
+      position: relative;
+      z-index: 5;
+      animation: fadeInUp 0.6s ease;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .register-logo img {
+      width: 90px;
+      height: 90px;
+      margin-bottom: 16px;
+      filter: drop-shadow(0 0 12px rgba(241,196,15,0.6));
+      animation: glow 3s ease-in-out infinite;
+    }
+
+    h2 {
+      color: var(--gold);
+      margin-bottom: 12px;
+      font-size: 22px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .subtitle {
+      color: #bbb;
+      font-size: 14px;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    input {
+      width: 100%;
+      margin: 10px 0;
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: #0f0f12;
+      color: #fff;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(241,196,15,0.1);
+    }
+
+    input.error {
+      border-color: #e74c3c;
+      animation: shake 0.3s ease;
+    }
+
+    input.success {
+      border-color: #2ecc71;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 16px;
+    }
+
+    .input-icon {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #999;
+      font-size: 18px;
+      pointer-events: none;
+    }
+
+    .input-icon.valid { color: #2ecc71; }
+    .input-icon.invalid { color: #e74c3c; }
+
+    .password-strength {
+      margin: 5px 0 10px;
+      height: 4px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      display: none;
+    }
+
+    .password-strength.show {
+      display: block;
+    }
+
+    .password-strength-bar {
+      height: 100%;
+      width: 0%;
+      transition: all 0.3s ease;
+      border-radius: 10px;
+    }
+
+    .password-strength.weak .password-strength-bar {
+      width: 33%;
+      background: #e74c3c;
+    }
+
+    .password-strength.medium .password-strength-bar {
+      width: 66%;
+      background: #f39c12;
+    }
+
+    .password-strength.strong .password-strength-bar {
+      width: 100%;
+      background: #2ecc71;
+    }
+
+    .password-hint {
+      font-size: 12px;
+      color: #999;
+      text-align: left;
+      margin: -5px 0 10px;
+      display: none;
+    }
+
+    .password-hint.show {
+      display: block;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 13px;
+      color: #bbb;
+      margin: 12px 0;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .checkbox-row input[type="checkbox"] {
+      width: auto;
+      margin: 4px 0 0 0;
+      cursor: pointer;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: #000;
+      margin-top: 14px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    button:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow: 0 0 15px rgba(241,196,15,0.4);
+    }
+
+    button:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    button .spinner {
+      display: none;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(0,0,0,0.3);
+      border-top-color: #000;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto;
+    }
+
+    button.loading .spinner {
+      display: block;
+    }
+
+    button.loading .btn-text {
+      display: none;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    a {
+      color: var(--gold);
+      display: block;
+      margin-top: 16px;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: #fff;
+    }
+
+    #tsparticles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 16px 24px;
+      border-radius: 8px;
+      color: white;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      z-index: 10000;
+      animation: slideInRight 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      max-width: 400px;
+    }
+
+    .toast-success {
+      background: linear-gradient(135deg, #2ecc71, #27ae60);
+      border-left: 4px solid #1e8449;
+    }
+
+    .toast-error {
+      background: linear-gradient(135deg, #e74c3c, #c0392b);
+      border-left: 4px solid #a93226;
+    }
+
+    .toast-warning {
+      background: linear-gradient(135deg, #f39c12, #e67e22);
+      border-left: 4px solid #d68910;
+    }
+
+    .toast-hide {
+      animation: slideOutRight 0.3s ease;
+    }
+
+    @keyframes slideInRight {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideOutRight {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes glow {
+      0%, 100% { filter: drop-shadow(0 0 12px rgba(241,196,15,0.6)); }
+      50% { filter: drop-shadow(0 0 20px rgba(241,196,15,0.9)); }
+    }
+
+    @media (max-width: 768px) {
+      .toast {
+        right: 10px;
+        left: 10px;
+        max-width: calc(100% - 20px);
+      }
+
+      .register-container {
+        padding: 32px 24px;
+        max-height: 95vh;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="tsparticles"></div>
+
+  <div class="register-container">
+    <div class="register-logo">
+      <img src="img/logo/logo.png" alt="Summit Global Invest">
+    </div>
+
+    <h2>Criar Conta</h2>
+    <p class="subtitle">
+      Junte-se à Summit Global e comece sua jornada rumo ao topo
+    </p>
+
+    <form id="register-form">
+      <div class="input-group">
+        <input 
+          type="text" 
+          id="register-username" 
+          placeholder="Nome de usuário *" 
+          required
+          autocomplete="username"
+          aria-label="Nome de usuário"
+          minlength="3"
+          maxlength="20"
+        >
+        <span class="input-icon" id="username-icon"></span>
+      </div>
+
+      <div class="input-group">
+        <input 
+          type="email" 
+          id="register-email" 
+          placeholder="E-mail *" 
+          required
+          autocomplete="email"
+          aria-label="E-mail"
+        >
+        <span class="input-icon" id="email-icon"></span>
+      </div>
+
+      <div class="input-group">
+        <input 
+          type="password" 
+          id="register-password" 
+          placeholder="Senha *" 
+          required
+          autocomplete="new-password"
+          aria-label="Senha"
+          minlength="6"
+        >
+      </div>
+      
+      <div class="password-strength" id="password-strength">
+        <div class="password-strength-bar"></div>
+      </div>
+      <div class="password-hint" id="password-hint"></div>
+
+      <div class="input-group">
+        <input 
+          type="password" 
+          id="register-password-confirm" 
+          placeholder="Confirmar senha *" 
+          required
+          autocomplete="new-password"
+          aria-label="Confirmar senha"
+        >
+      </div>
+
+      <div class="input-group">
+        <input 
+          type="text" 
+          id="register-refcode" 
+          placeholder="Código de indicação (obrigatório)" 
+          required
+          aria-label="Código de indicação"
+        >
+        <span class="input-icon" id="refcode-icon"></span>
+      </div>
+
+      <div class="checkbox-row" onclick="document.getElementById('terms').click()">
+        <input type="checkbox" id="terms" required>
+        <label for="terms">
+          Eu li e aceito os <a href="#" style="display:inline;color:var(--gold);">termos de uso</a> e a <a href="#" style="display:inline;color:var(--gold);">política de privacidade</a>
+        </label>
+      </div>
+
+      <button type="submit" id="register-btn">
+        <span class="btn-text">Criar Conta</span>
+        <div class="spinner"></div>
+      </button>
+    </form>
+
+    <a href="login.html">Já tem uma conta? Faça login</a>
+
+    <div class="login-footer" style="margin-top:20px;font-size:13px;color:#777;">
+      © 2025 <strong style="color:var(--gold);">Summit Global Invest</strong>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+  <script src="cliente/js/auth.js"></script>
+  <script>
+    // ============================================
+    // TOAST NOTIFICATIONS
+    // ============================================
+    function showToast(message, type = 'success') {
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+      toast.textContent = message;
+      
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.add('toast-hide');
+        setTimeout(() => toast.remove(), 300);
+      }, 4000);
+    }
+
+    // ============================================
+    // VALIDAÇÃO EM TEMPO REAL
+    // ============================================
+    const usernameInput = document.getElementById("register-username");
+    const emailInput = document.getElementById("register-email");
+    const passwordInput = document.getElementById("register-password");
+    const passwordConfirmInput = document.getElementById("register-password-confirm");
+    const refcodeInput = document.getElementById("register-refcode");
+
+    // Username validation
+    usernameInput.addEventListener("blur", () => {
+      const username = usernameInput.value.trim();
+      const icon = document.getElementById("username-icon");
+      
+      if (username.length >= 3 && /^[a-zA-Z0-9_]+$/.test(username)) {
+        usernameInput.classList.remove("error");
+        usernameInput.classList.add("success");
+        icon.textContent = "✓";
+        icon.className = "input-icon valid";
+      } else if (username) {
+        usernameInput.classList.remove("success");
+        usernameInput.classList.add("error");
+        icon.textContent = "✗";
+        icon.className = "input-icon invalid";
+        showToast("Nome de usuário deve ter 3+ caracteres (apenas letras, números e _)", "warning");
+      }
+    });
+
+    // Email validation
+    emailInput.addEventListener("blur", () => {
+      const email = emailInput.value.trim();
+      const icon = document.getElementById("email-icon");
+      
+      if (email) {
+        const isValid = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+        
+        if (isValid) {
+          emailInput.classList.remove("error");
+          emailInput.classList.add("success");
+          icon.textContent = "✓";
+          icon.className = "input-icon valid";
+        } else {
+          emailInput.classList.remove("success");
+          emailInput.classList.add("error");
+          icon.textContent = "✗";
+          icon.className = "input-icon invalid";
+          showToast("E-mail inválido", "warning");
+        }
+      }
+    });
+
+    // Password strength indicator
+    const strengthIndicator = document.getElementById("password-strength");
+    const passwordHint = document.getElementById("password-hint");
+
+    passwordInput.addEventListener("input", () => {
+      const password = passwordInput.value;
+      
+      if (password.length === 0) {
+        strengthIndicator.classList.remove("show", "weak", "medium", "strong");
+        passwordHint.classList.remove("show");
+        return;
+      }
+
+      strengthIndicator.classList.add("show");
+      passwordHint.classList.add("show");
+
+      let strength = 0;
+      
+      if (password.length >= 6) strength++;
+      if (password.length >= 10) strength++;
+      if (/[0-9]/.test(password)) strength++;
+      if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+      if (/[^a-zA-Z0-9]/.test(password)) strength++;
+
+      strengthIndicator.classList.remove("weak", "medium", "strong");
+      
+      if (strength <= 2) {
+        strengthIndicator.classList.add("weak");
+        passwordHint.textContent = "⚠️ Senha fraca - adicione números e letras";
+        passwordHint.style.color = "#e74c3c";
+      } else if (strength <= 4) {
+        strengthIndicator.classList.add("medium");
+        passwordHint.textContent = "✓ Senha média - considere adicionar caracteres especiais";
+        passwordHint.style.color = "#f39c12";
+      } else {
+        strengthIndicator.classList.add("strong");
+        passwordHint.textContent = "✓✓ Senha forte!";
+        passwordHint.style.color = "#2ecc71";
+      }
+    });
+
+    // Password confirmation
+    passwordConfirmInput.addEventListener("blur", () => {
+      const password = passwordInput.value;
+      const confirm = passwordConfirmInput.value;
+
+      if (confirm && password !== confirm) {
+        passwordConfirmInput.classList.add("error");
+        showToast("As senhas não coincidem", "warning");
+      } else if (confirm) {
+        passwordConfirmInput.classList.remove("error");
+        passwordConfirmInput.classList.add("success");
+      }
+    });
+
+    // Refcode validation (opcional - verifica se existe)
+    refcodeInput.addEventListener("blur", async () => {
+      const refcode = refcodeInput.value.trim();
+      const icon = document.getElementById("refcode-icon");
+      
+      if (refcode) {
+        // Verifica se código existe (mock)
+        const users = JSON.parse(localStorage.getItem("summit_users") || "[]");
+        const exists = users.find(u => u.refCode && u.refCode.toUpperCase() === refcode.toUpperCase());
+        
+        if (exists) {
+          refcodeInput.classList.remove("error");
+          refcodeInput.classList.add("success");
+          icon.textContent = "✓";
+          icon.className = "input-icon valid";
+          showToast(`✓ Código válido: ${exists.username}`, "success");
+        } else {
+          refcodeInput.classList.remove("success");
+          refcodeInput.classList.add("error");
+          icon.textContent = "✗";
+          icon.className = "input-icon invalid";
+          showToast("⚠️ Código de indicação não encontrado", "warning");
+        }
+      }
+    });
+
+    // ============================================
+    // VALIDAÇÃO CLIENT-SIDE
+    // ============================================
+    function validateRegisterForm() {
+      const username = usernameInput.value.trim();
+      const email = emailInput.value.trim();
+      const password = passwordInput.value.trim();
+      const passwordConfirm = passwordConfirmInput.value.trim();
+      const refcode = refcodeInput.value.trim();
+      const termsChecked = document.getElementById("terms").checked;
+
+      // Remove classes error anteriores
+      document.querySelectorAll("input").forEach(input => {
+        input.classList.remove("error");
+      });
+
+      // Username
+      if (!username || username.length < 3 || !/^[a-zA-Z0-9_]+$/.test(username)) {
+        usernameInput.classList.add("error");
+        showToast("⚠️ Nome de usuário inválido (mínimo 3 caracteres, apenas letras, números e _)", "warning");
+        usernameInput.focus();
+        return false;
+      }
+
+      // Email
+      if (!email || !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+        emailInput.classList.add("error");
+        showToast("⚠️ E-mail inválido", "warning");
+        emailInput.focus();
+        return false;
+      }
+
+      // Password
+      if (!password || password.length < 6 || !/[0-9]/.test(password)) {
+        passwordInput.classList.add("error");
+        showToast("⚠️ Senha deve ter no mínimo 6 caracteres e conter pelo menos um número", "warning");
+        passwordInput.focus();
+        return false;
+      }
+
+      // Password confirmation
+      if (password !== passwordConfirm) {
+        passwordConfirmInput.classList.add("error");
+        showToast("⚠️ As senhas não coincidem", "warning");
+        passwordConfirmInput.focus();
+        return false;
+      }
+
+      // Refcode (obrigatório exceto para gato_mestre)
+      if (!refcode && username.toLowerCase() !== "gato_mestre") {
+        refcodeInput.classList.add("error");
+        showToast("⚠️ Código de indicação é obrigatório", "warning");
+        refcodeInput.focus();
+        return false;
+      }
+
+      // Terms
+      if (!termsChecked) {
+        showToast("⚠️ Você deve aceitar os termos de uso", "warning");
+        return false;
+      }
+
+      return true;
+    }
+
+    // ============================================
+    // PROCESSO DE REGISTRO (ASYNC)
+    // ============================================
+    async function handleRegister(e) {
+      e.preventDefault();
+      
+      console.log("📝 Iniciando processo de registro...");
+
+      if (!validateRegisterForm()) {
+        return;
+      }
+
+      const username = usernameInput.value.trim();
+      const email = emailInput.value.trim();
+      const password = passwordInput.value.trim();
+      const refcode = refcodeInput.value.trim() || null;
+      const registerBtn = document.getElementById("register-btn");
+
+      registerBtn.disabled = true;
+      registerBtn.classList.add("loading");
+
+      try {
+        console.log("📡 Registrando usuário...");
+
+        const result = await registerUser(username, email, password, refcode);
+
+        if (!result.ok) {
+          console.warn("❌ Registro falhou:", result.msg);
+          showToast(result.msg, "error");
+          
+        } else {
+          console.log("✅ Registro bem-sucedido:", result.user.username);
+          showToast("✅ Conta criada com sucesso! Redirecionando...", "success");
+          
+          // Limpa formulário
+          document.getElementById("register-form").reset();
+          strengthIndicator.classList.remove("show");
+          passwordHint.classList.remove("show");
+          
+          // Redireciona para login ou dashboard
+          setTimeout(() => {
+            console.log("🚀 Redirecionando...");
+            window.location.href = "cliente/dashboard.html";
+          }, 1500);
+        }
+
+      } catch (error) {
+        console.error("❌ Erro no processo de registro:", error);
+        showToast("❌ Erro ao processar cadastro. Tente novamente.", "error");
+      } finally {
+        registerBtn.disabled = false;
+        registerBtn.classList.remove("loading");
+      }
+    }
+
+    document.getElementById("register-form").addEventListener("submit", handleRegister);
+
+    // ============================================
+    // TECLA ENTER FUNCIONAL
+    // ============================================
+    document.querySelectorAll("input").forEach(input => {
+      input.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          document.getElementById("register-form").dispatchEvent(new Event("submit"));
+        }
+      });
+    });
+
+    // ============================================
+    // PARTÍCULAS DE FUNDO
+    // ============================================
+    const isMobile = window.innerWidth <= 768;
+    
+    tsParticles.load("tsparticles", {
+      background: { color: "transparent" },
+      particles: {
+        number: { 
+          value: isMobile ? 15 : 30,
+          density: {
+            enable: true,
+            value_area: 1000
+          }
+        },
+        color: { value: "#f1c40f" },
+        opacity: { 
+          value: 0.4,
+          random: true,
+          anim: {
+            enable: true,
+            speed: 0.5,
+            opacity_min: 0.1
+          }
+        },
+        size: { 
+          value: isMobile ? 2 : 3,
+          random: true
+        },
+        move: { 
+          enable: true, 
+          speed: isMobile ? 0.5 : 0.8,
+          direction: "none",
+          random: true,
+          out_mode: "out"
+        },
+        line_linked: {
+          enable: !isMobile,
+          distance: 150,
+          color: "#f1c40f",
+          opacity: 0.2,
+          width: 1
+        },
+        shape: { type: "circle" }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: {
+            enable: !isMobile,
+            mode: "repulse"
+          },
+          resize: true
+        },
+        modes: {
+          repulse: {
+            distance: 100,
+            duration: 0.4
+          }
+        }
+      },
+      retina_detect: true,
+      fps_limit: isMobile ? 30 : 60
+    }).then(() => {
+      console.log("🎨 Partículas carregadas");
+    });
+
+    // ============================================
+    // VERIFICAÇÃO DE SISTEMA
+    // ============================================
+    if (typeof registerUser !== 'function') {
+      console.error("❌ ERRO CRÍTICO: auth.js não foi carregado!");
+      showToast("❌ Erro ao carregar sistema de autenticação", "error");
+      document.getElementById("register-btn").disabled = true;
+      document.getElementById("register-btn").innerHTML = "Sistema Indisponível";
+    }
+
+    // ============================================
+    // FOCUS AUTOMÁTICO
+    // ============================================
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        usernameInput.focus();
+      }, 300);
+    });
+
+    console.log("✅ Sistema de registro v2.0 pronto");
+  </script>
+</body>
+</html>

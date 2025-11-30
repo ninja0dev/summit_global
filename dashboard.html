@@ -1,0 +1,189 @@
+<section class="section" id="dashboard">
+
+  <!-- Cabeçalho Premium -->
+  <h2 style="color:var(--gold); text-align:center; margin-bottom:20px;">
+    👑 Dashboard — <span id="nivel-icone" style="color:#9b59b6;">🟣 Diamante Roxo</span>
+  </h2>
+
+  <!-- Saudação -->
+  <div class="welcome-box" style="text-align:center; margin-bottom: 30px;">
+    <h3 style="color:#fff;">Bem-vindo de volta, <span id="nome-usuario" style="color:var(--gold);">General</span></h3>
+    <p id="painel-date" style="color:var(--muted);"></p>
+  </div>
+
+  <!-- Resumo Rápido -->
+  <div class="cards" style="margin-bottom: 30px; display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px;">
+    <div class="card">
+      <h4>💰 Saldo Total</h4>
+      <p style="font-size:22px; color:var(--gold);">R$ 450.000</p>
+    </div>
+    <div class="card">
+      <h4>📈 Lucro Acumulado</h4>
+      <p style="font-size:22px; color:#2ecc71;">R$ 130.000</p>
+    </div>
+    <div class="card">
+      <h4>💎 Depósitos Ativos</h4>
+      <p style="font-size:22px; color:#fff;">12</p>
+    </div>
+    <div class="card">
+      <h4>🏦 Saques Realizados</h4>
+      <p style="font-size:22px; color:#3498db;">R$ 80.000</p>
+    </div>
+    <div class="card">
+      <h4>🎖 Nível Atual</h4>
+      <p id="nivel-atual" style="font-size:22px; color:#9b59b6;">Diamante Roxo</p>
+    </div>
+  </div>
+
+  <!-- Rede -->
+  <div class="cards" style="margin-bottom:40px; display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px;">
+    <div class="card"><h4>👥 Equipe Ativa</h4><p id="dash-equipe" style="font-size:22px;color:var(--gold);">0</p></div>
+    <div class="card"><h4>🤝 Diretos</h4><p id="dash-diretos" style="font-size:22px;color:#2ecc71;">0</p></div>
+    <div class="card"><h4>🔥 Ativos</h4><p id="dash-ativos" style="font-size:22px;color:#fff;">0</p></div>
+    <div class="card"><h4>💤 Inativos</h4><p id="dash-inativos" style="font-size:22px;color:#e74c3c;">0</p></div>
+    <div class="card"><h4>💸 Volume</h4><p id="dash-volume" style="font-size:22px;color:#f1c40f;">R$ 0</p></div>
+  </div>
+
+  <!-- Gráfico de Evolução Patrimonial -->
+  <div class="card" style="margin-bottom:30px;">
+    <h3 style="color:var(--gold);">📈 Evolução Patrimonial</h3>
+    <canvas id="painelChart" height="160"></canvas>
+  </div>
+
+  <!-- Acessos Rápidos -->
+  <div class="card" style="margin-bottom:40px;">
+    <h3 style="color:var(--gold); margin-top:0;">🚀 Acessos Rápidos</h3>
+    <div class="cards" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); margin-top:12px;">
+      <div class="card" style="text-align:left;">
+        <h4>💎 Planos</h4>
+        <p>Escolha e compre pacotes</p>
+        <button class="btn-primary quick-access" data-section="planos">Acessar Planos</button>
+      </div>
+
+      <div class="card" style="text-align:left;">
+        <h4>💰 Depósitos</h4>
+        <p>Gerencie seus aportes</p>
+        <button class="btn-primary quick-access" data-section="depositos">Acessar Depósitos</button>
+      </div>
+
+      <div class="card" style="text-align:left;">
+        <h4>🏦 Saques</h4>
+        <p>Solicite retiradas</p>
+        <button class="btn-primary quick-access" data-section="saques">Acessar Saques</button>
+      </div>
+
+      <div class="card" style="text-align:left;">
+        <h4>🎖 Carreira</h4>
+        <p>Ver sua progressão</p>
+        <button class="btn-primary quick-access" data-section="carreira">Acessar Carreira</button>
+      </div>
+
+      <div class="card" style="text-align:left;">
+        <h4>🌐 Rede</h4>
+        <p>Visualizar indicados</p>
+        <button class="btn-primary quick-access" data-section="rede">Acessar Rede</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Atividades Recentes -->
+  <div class="section" style="margin-top:20px;">
+    <h3 style="color: var(--gold); text-align:center;">⚡ Atividades Recentes</h3>
+    <div class="cards">
+      <div class="card"><h4>📥 Últimos Depósitos</h4><p>R$ 50.000 - 2025-09-15</p><p>R$ 25.000 - 2025-08-20</p></div>
+      <div class="card"><h4>📤 Últimos Saques</h4><p>R$ 20.000 - 2025-08-28</p><p>R$ 15.000 - 2025-08-15</p></div>
+      <div class="card"><h4>👥 Atividade da Equipe</h4><p>+10 novos membros — esta semana</p><p>Total: 54 ativos</p></div>
+    </div>
+  </div>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // ====== Dados simulados do usuário (em breve será puxado do backend) ======
+  const usuario = {
+    nome: "General",
+    nivel: "Diamante Roxo"
+  };
+
+  // Ícones correspondentes ao nível
+  const iconesNiveis = {
+    "Cristal": "💎",
+    "Jade": "🟩",
+    "Pérola": "⚪",
+    "Safira": "🔷",
+    "Esmeralda": "💚",
+    "Rubi": "❤️",
+    "Diamante": "💠",
+    "Diamante Azul": "🔵",
+    "Diamante Verde": "🟢",
+    "Diamante Roxo": "🟣",
+    "Diamante Vermelho": "🔴",
+    "Diamante Platina": "⚪",
+    "Diamante Negro": "⚫",
+    "Diamante Negro Duplo": "⚔️",
+    "Diamante Negro Triplo": "👑"
+  };
+
+  // Atualiza nome e nível dinâmico
+  document.getElementById("nome-usuario").textContent = usuario.nome;
+  document.getElementById("nivel-atual").textContent = usuario.nivel;
+  document.getElementById("nivel-icone").innerHTML = `${iconesNiveis[usuario.nivel] || "💠"} ${usuario.nivel}`;
+
+  // Data atual
+  document.getElementById("painel-date").textContent =
+    new Date().toLocaleDateString("pt-BR", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    });
+
+  // Acessos rápidos (funcionais)
+  document.querySelectorAll(".quick-access").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const section = btn.getAttribute("data-section");
+      if (window.loadSection) loadSection(section);
+    });
+  });
+
+  // Gráfico Premium (garantido)
+  const ctxPainel = document.getElementById("painelChart");
+  if (ctxPainel) {
+    new Chart(ctxPainel, {
+      type: "line",
+      data: {
+        labels: ["Mai", "Jun", "Jul", "Ago", "Set"],
+        datasets: [{
+          label: "Evolução do Patrimônio (R$)",
+          data: [200000, 280000, 340000, 400000, 450000],
+          borderColor: "#9b59b6",
+          backgroundColor: "rgba(155,89,182,0.18)",
+          fill: true,
+          tension: 0.35,
+          pointBackgroundColor: "#f1c40f",
+          pointRadius: 5,
+          borderWidth: 3
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { labels: { color: "#fff", font: { size: 14 } } },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ' R$ ' + Number(ctx.parsed.y).toLocaleString('pt-BR')
+            }
+          }
+        },
+        scales: {
+          x: { ticks: { color: "#fff" }, grid: { color: "rgba(255,255,255,0.06)" } },
+          y: {
+            ticks: { color: "#fff", callback: v => 'R$ ' + v.toLocaleString('pt-BR') },
+            grid: { color: "rgba(255,255,255,0.06)" }
+          }
+        }
+      }
+    });
+  }
+});
+</script>

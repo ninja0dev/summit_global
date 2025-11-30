@@ -1,0 +1,289 @@
+<!-- ========================================
+     SUMMIT GLOBAL INVEST - PÁGINA INSTITUCIONAL
+     Versão 2.2 - Imagens e Cards Corrigidos
+     ======================================== -->
+
+<div id="tsparticles"></div>
+
+<header>
+  <div class="logo-premium">
+    <img src="img/logo/logo.png" alt="Summit Global Invest" class="logo-svg" loading="eager">
+    <span class="logo-text">Summit Global</span>
+  </div>
+
+  <button class="menu-toggle" id="menu-toggle" aria-label="Menu de navegação">
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </button>
+
+  <nav class="nav-links">
+    <a href="#topo">Home</a>
+    <a href="#sobre">Sobre</a>
+    <a href="#planos">Planos</a>
+    <a href="#carreira">Carreira</a>
+    <a href="#contato">Contato</a>
+    <a href="login.html" id="area-cliente-desktop"><strong>Área do Cliente</strong></a>
+  </nav>
+
+  <div id="mobile-menu" class="nav-mobile">
+    <a href="#topo">Home</a>
+    <a href="#sobre">Sobre</a>
+    <a href="#planos">Planos</a>
+    <a href="#carreira">Carreira</a>
+    <a href="#contato">Contato</a>
+    <a href="login.html" id="area-cliente-mobile"><strong>Área do Cliente</strong></a>
+  </div>
+</header>
+
+<section class="hero">
+  <h2>Bem-vindo ao Cume</h2>
+  <p>Sua jornada para o topo dos investimentos começa agora. Rendimentos sustentáveis, plano de carreira premium e segurança garantida.</p>
+  <a href="#planos" class="btn">Comece Agora</a>
+</section>
+
+<section class="section" id="sobre">
+  <h3>Quem Somos</h3>
+  <div style="max-width: 800px; margin: 0 auto; text-align: center; font-size: 17px; line-height: 1.8; color: #ddd;">
+    <p style="margin-bottom: 24px;">
+      A <strong style="color: var(--gold)">Summit Global Invest</strong> nasceu com o propósito de levar segurança e sustentabilidade ao mercado de investimentos.
+      Trabalhamos com gestão inteligente, transparência e visão de longo prazo, garantindo resultados consistentes.
+    </p>
+    <p>
+      Nossa estratégia é simples e poderosa: pacotes de investimento escalonados, plano de carreira com prêmios reais,
+      taxas que fortalecem o sistema e liquidez garantida de 40% em caixa para proteção dos investidores.
+    </p>
+  </div>
+</section>
+
+<section class="section" id="planos">
+  <h3>Pacotes de Investimento</h3>
+  <div class="cards">
+    <div class="card">
+      <h4>💎 Start</h4>
+      <p><strong>R$ 300 – R$ 999</strong></p>
+      <p>0,30% ao dia</p>
+      <p style="color: var(--muted);">~6,6% ao mês</p>
+    </div>
+    <div class="card">
+      <h4>🥉 Bronze</h4>
+      <p><strong>R$ 1.000 – R$ 4.999</strong></p>
+      <p>0,40% ao dia</p>
+      <p style="color: var(--muted);">~8,8% ao mês</p>
+    </div>
+    <div class="card">
+      <h4>🥈 Prata</h4>
+      <p><strong>R$ 5.000 – R$ 9.999</strong></p>
+      <p>0,50% ao dia</p>
+      <p style="color: var(--muted);">~11% ao mês</p>
+    </div>
+    <div class="card">
+      <h4>🥇 Ouro</h4>
+      <p><strong>R$ 10.000 – R$ 24.999</strong></p>
+      <p>0,60% ao dia</p>
+      <p style="color: var(--muted);">~13% ao mês</p>
+    </div>
+    <div class="card">
+      <h4>💿 Platina</h4>
+      <p><strong>R$ 25.000 – R$ 49.999</strong></p>
+      <p>0,70% ao dia</p>
+      <p style="color: var(--muted);">~15% ao mês</p>
+    </div>
+    <div class="card">
+      <h4>💎 Diamante</h4>
+      <p><strong>R$ 50.000+</strong></p>
+      <p>0,76% ao dia</p>
+      <p style="color: var(--muted);">~16,7% ao mês</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="calculadora">
+  <h3>Simule seus Rendimentos</h3>
+  <div class="calculator">
+    <label for="valor">Valor do Investimento (R$):</label>
+    <input type="number" id="valor" placeholder="Ex: 10000" min="300" step="100">
+    
+    <label for="tempo">Tempo (meses):</label>
+    <input type="number" id="tempo" placeholder="Ex: 12" min="1" max="36">
+    
+    <label for="plano">Plano:</label>
+    <select id="plano">
+      <option value="0.003">Start - 0,30% ao dia</option>
+      <option value="0.004">Bronze - 0,40% ao dia</option>
+      <option value="0.005">Prata - 0,50% ao dia</option>
+      <option value="0.006">Ouro - 0,60% ao dia</option>
+      <option value="0.007">Platina - 0,70% ao dia</option>
+      <option value="0.0076">Diamante - 0,76% ao dia</option>
+    </select>
+    
+    <button class="btn" id="calcular-btn">Calcular Rendimentos</button>
+    
+    <div class="results" id="resultados"></div>
+  </div>
+  <canvas id="grafico" style="max-width: 700px; margin: 30px auto 0; display: none;"></canvas>
+</section>
+
+<section class="section" id="carreira">
+  <h3>🎖 Plano de Carreira</h3>
+  <p style="text-align: center; max-width: 800px; margin: 0 auto 40px; color: #ddd; line-height: 1.6; font-size: 16px;">
+    Conquiste sua posição no topo e desbloqueie prêmios lendários. Cada nível exige dedicação, volume de equipe e investimento próprio. No topo, apenas os verdadeiros <strong style="color: var(--gold)">Diamantes</strong> permanecem.
+  </p>
+  <div class="career-grid">
+    <div class="career-card">
+      <h4>
+        <img src="img/ranks/cristal.png" alt="Cristal" class="rank-icon">
+        Cristal
+      </h4>
+      <p><strong>🎁 Bônus R$ 500</strong></p>
+      <small>Invest: R$ 500 | 2 diretos</small>
+    </div>
+
+    <div class="career-card">
+      <h4>
+        <img src="img/ranks/jade.png" alt="Jade" class="rank-icon">
+        Jade
+      </h4>
+      <p><strong>🎁 Bônus R$ 750</strong></p>
+      <small>Invest: R$ 750 | 2 diretos</small>
+    </div>
+
+    <div class="career-card">
+      <h4>
+        <img src="img/ranks/perola.png" alt="Pérola" class="rank-icon">
+        Pérola
+      </h4>
+      <p><strong>🎁 Bônus R$ 1.000</strong></p>
+      <small>Invest: R$ 1.000 | 2 diretos</small>
+    </div>
+
+    <div class="career-card">
+      <h4>
+        <img src="img/ranks/safira.png" alt="Safira" class="rank-icon">
+        Safira
+      </h4>
+      <p><strong>🎁 Smartphone</strong></p>
+      <small>Invest: R$ 1.500 | 3 diretos</small>
+    </div>
+
+    <div class="career-card">
+      <h4>
+        <img src="img/ranks/esmeralda.png" alt="Esmeralda" class="rank-icon">
+        Esmeralda
+      </h4>
+      <p><strong>🎁 Notebook Gamer</strong></p>
+      <small>Invest: R$ 2.500 | 4 diretos</small>
+    </div>
+
+    <div class="career-card">
+      <h4>
+        <img src="img/ranks/rubi.png" alt="Rubi" class="rank-icon">
+        Rubi
+      </h4>
+      <p><strong>🎁 Moto 125cc</strong></p>
+      <small>Invest: R$ 5.000 | 5 diretos</small>
+    </div>
+
+    <div class="career-card elite">
+      <h4>
+        <img src="img/ranks/diamante.png" alt="Diamante" class="rank-icon">
+        Diamante
+      </h4>
+      <p><strong>🎁 Carro Popular 0km</strong></p>
+      <small>Invest: R$ 10.000 | 6 diretos</small>
+    </div>
+
+    <div class="career-card">
+      <h4>
+        <img src="img/ranks/diamante-azul.png" alt="Diamante Azul" class="rank-icon">
+        Diamante Azul
+      </h4>
+      <p><strong>🎁 Viagem Internacional</strong></p>
+      <small>Invest: R$ 25.000 | 7 diretos</small>
+    </div>
+
+    <div class="career-card">
+      <h4>
+        <img src="img/ranks/diamante-verde.png" alt="Diamante Verde" class="rank-icon">
+        Diamante Verde
+      </h4>
+      <p><strong>🎁 Carro de Luxo Médio</strong></p>
+      <small>Invest: R$ 40.000 | 8 diretos</small>
+    </div>
+
+    <div class="career-card elite">
+      <h4>
+        <img src="img/ranks/diamante-roxo.png" alt="Diamante Roxo" class="rank-icon">
+        Diamante Roxo
+      </h4>
+      <p><strong>🎁 Apartamento R$ 300K</strong></p>
+      <small>Invest: R$ 60.000 | 10 diretos</small>
+    </div>
+
+    <div class="career-card">
+      <h4>
+        <img src="img/ranks/diamante-vermelho.png" alt="Diamante Vermelho" class="rank-icon">
+        Diamante Vermelho
+      </h4>
+      <p><strong>🎁 Carro Esportivo</strong></p>
+      <small>Invest: R$ 80.000 | 12 diretos</small>
+    </div>
+
+    <div class="career-card elite">
+      <h4>
+        <img src="img/ranks/diamante-platina.png" alt="Diamante Platina" class="rank-icon">
+        Diamante Platina
+      </h4>
+      <p><strong>🎁 Cobertura / R$ 1M</strong></p>
+      <small>Invest: R$ 100.000 | 15 diretos</small>
+    </div>
+
+    <div class="career-card elite">
+      <h4>
+        <img src="img/ranks/diamante-negro.png" alt="Diamante Negro" class="rank-icon">
+        Diamante Negro
+      </h4>
+      <p><strong>🎁 Supercarro</strong></p>
+      <small>Invest: R$ 150.000 | 18 diretos</small>
+    </div>
+
+    <div class="career-card elite">
+      <h4>
+        <img src="img/ranks/diamante-negro-duplo.png" alt="Diamante Negro Duplo" class="rank-icon">
+        DN Duplo
+      </h4>
+      <p><strong>🎁 Mansão R$ 3M</strong></p>
+      <small>Invest: R$ 200.000 | 20 diretos</small>
+    </div>
+
+    <div class="career-card elite">
+      <h4>
+        <img src="img/ranks/diamante-negro-triplo.png" alt="Diamante Negro Triplo" class="rank-icon">
+        DN Triplo
+      </h4>
+      <p><strong>🎁 Jato Executivo / R$ 10M</strong></p>
+      <small>Invest: R$ 300.000 | 25 diretos</small>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contato">
+  <h3>Fale Conosco</h3>
+  <div style="max-width: 700px; margin: 0 auto; text-align: center;">
+    <p style="margin-bottom: 28px; line-height: 1.6; color: #ddd; font-size: 16px;">
+      Entre em contato com nossa equipe de especialistas e dê o próximo passo rumo ao topo.
+    </p>
+    <a href="mailto:contato@summitglobal.com" class="btn">Enviar E-mail</a>
+  </div>
+</section>
+
+<footer>
+  <p style="margin-bottom: 16px;">&copy; 2025 Summit Global Invest. Todos os direitos reservados.</p>
+  <p>
+    <a href="#topo">Topo</a> | 
+    <a href="#sobre">Sobre</a> | 
+    <a href="#planos">Planos</a> | 
+    <a href="#carreira">Carreira</a> | 
+    <a href="#contato">Contato</a>
+  </p>
+</footer>

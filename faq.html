@@ -1,0 +1,243 @@
+<!-- cliente/sections/faq.html
+     FAQ PREMIUM DEFINITIVO -->
+<section class="section" id="faq">
+  <h2 style="color:var(--gold); text-align:center; margin-bottom:18px;">❓ FAQ — Perguntas Frequentes (Premium)</h2>
+
+  <p style="text-align:center; color:#ddd; margin-bottom:18px;">
+    Aqui você encontra respostas detalhadas sobre o funcionamento da Summit Global Invest.  
+    Todas as informações refletem as regras e estrutura oficiais do projeto.
+  </p>
+
+  <!-- Barra de busca e botões -->
+  <div style="max-width:1000px; margin: 0 auto 18px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+    <input id="faq-search" type="search" placeholder="Pesquisar FAQ (ex.: saque, planos, 2FA, comissão)" style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:#0b0b0d;color:#fff;min-width:320px;">
+    <button class="btn-ghost" id="faq-expand">Expandir Tudo</button>
+    <button class="btn-ghost" id="faq-collapse">Fechar Tudo</button>
+  </div>
+
+  <!-- VISUAL: Fluxo de Fundos -->
+  <div class="card" style="margin-bottom:18px;">
+    <h3 style="color:var(--gold); margin-top:0;">🔁 Fluxo de Recursos & Sustentabilidade</h3>
+    <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;">
+      <svg width="100%" height="200" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMid meet" style="max-width:980px;">
+        <!-- depósito -->
+        <rect x="20" y="30" width="180" height="80" rx="8" fill="#0f1112" stroke="#f1c40f" stroke-width="2"></rect>
+        <text x="110" y="60" text-anchor="middle" fill="#f1c40f" font-weight="700">Depósito</text>
+        <text x="110" y="80" text-anchor="middle" fill="#ddd" font-size="12">USDT / R$</text>
+
+        <!-- seta caixa -->
+        <path d="M200 70 L300 70" stroke="#f1c40f" stroke-width="2" marker-end="url(#arrow)"/>
+        <!-- caixa -->
+        <rect x="300" y="10" width="180" height="80" rx="8" fill="#0f1112" stroke="#ddd" stroke-width="1"></rect>
+        <text x="390" y="40" text-anchor="middle" fill="#f1c40f" font-weight="700">Caixa / Reserva</text>
+        <text x="390" y="60" text-anchor="middle" fill="#ddd" font-size="12">40% liquidez</text>
+
+        <!-- seta operações -->
+        <path d="M480 50 L600 50" stroke="#f1c40f" stroke-width="2" marker-end="url(#arrow)"/>
+        <!-- pool -->
+        <rect x="600" y="10" width="180" height="80" rx="8" fill="#0f1112" stroke="#f1c40f" stroke-width="2"></rect>
+        <text x="690" y="40" text-anchor="middle" fill="#f1c40f" font-weight="700">Pool Operacional</text>
+        <text x="690" y="60" text-anchor="middle" fill="#ddd" font-size="12">Investimentos & operações</text>
+
+        <!-- seta pagamentos -->
+        <path d="M780 50 L880 50" stroke="#f1c40f" stroke-width="2" marker-end="url(#arrow)"/>
+        <rect x="880" y="10" width="100" height="80" rx="8" fill="#0f1112" stroke="#0f0" stroke-width="1"></rect>
+        <text x="930" y="40" text-anchor="middle" fill="#0f0" font-weight="700">Saques</text>
+        <text x="930" y="60" text-anchor="middle" fill="#ddd" font-size="12">Regras aplicadas</text>
+
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#f1c40f"></path>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Índice -->
+  <div class="card" style="padding:14px;">
+    <h3 style="color:var(--gold); margin-top:0;">Índice</h3>
+    <ol style="color:#ddd; padding-left:18px;">
+      <li>O que é a Summit Global Invest?</li>
+      <li>Planos & Rendimentos</li>
+      <li>Exemplo de cálculo de lucro</li>
+      <li>Depósitos</li>
+      <li>Saques</li>
+      <li>Plano de Carreira & Comissões</li>
+      <li>Segurança (Senha, 2FA, KYC)</li>
+      <li>Taxas e Sustentabilidade</li>
+      <li>Políticas</li>
+      <li>Suporte</li>
+    </ol>
+  </div>
+
+  <div id="faq-list" style="margin-top:14px;">
+    <!-- 1. Geral -->
+    <details open>
+      <summary style="font-weight:700; color:var(--gold); cursor:pointer;">O que é a Summit Global Invest?</summary>
+      <div class="card" style="margin-top:10px;">
+        <p>
+          A Summit Global Invest é uma plataforma de investimentos estruturada para oferecer
+          rendimentos sustentáveis através de pacotes escalonados, plano de carreira unilevel
+          e um sistema de liquidez que garante segurança nos saques.
+        </p>
+      </div>
+    </details>
+
+    <!-- 2. Planos -->
+    <details>
+      <summary style="font-weight:700; color:var(--gold); cursor:pointer;">Quais são os planos de investimento e rendimentos?</summary>
+      <div class="card" style="margin-top:10px;">
+        <table style="width:100%;border-collapse:collapse;color:#ddd;">
+          <thead>
+            <tr style="background:#0b0b0d;color:var(--gold);">
+              <th style="padding:8px;text-align:left;">Plano</th>
+              <th style="padding:8px;text-align:left;">Investimento (R$)</th>
+              <th style="padding:8px;text-align:left;">Rent. diária</th>
+              <th style="padding:8px;text-align:left;">Mensal (~)</th>
+              <th style="padding:8px;text-align:left;">Tempo p/ dobrar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="padding:8px;">Start</td><td>300 – 999</td><td>0,30%</td><td>~6,6%</td><td>15 meses</td></tr>
+            <tr><td style="padding:8px;">Bronze</td><td>1.000 – 4.999</td><td>0,40%</td><td>~8,8%</td><td>12 meses</td></tr>
+            <tr><td style="padding:8px;">Prata</td><td>5.000 – 9.999</td><td>0,50%</td><td>~11%</td><td>10 meses</td></tr>
+            <tr><td style="padding:8px;">Ouro</td><td>10.000 – 24.999</td><td>0,60%</td><td>~13%</td><td>8,5 meses</td></tr>
+            <tr><td style="padding:8px;">Platina</td><td>25.000 – 49.999</td><td>0,70%</td><td>~15%</td><td>7 meses</td></tr>
+            <tr><td style="padding:8px;">Diamante</td><td>50.000+</td><td>0,76%</td><td>~16,7%</td><td>6 meses</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <!-- 3. Cálculo -->
+    <details>
+      <summary style="font-weight:700; color:var(--gold); cursor:pointer;">Exemplo: como calcular meus lucros?</summary>
+      <div class="card" style="margin-top:10px;">
+        <p>
+          Fórmula: <code>Saldo Final = Investimento × (1 + taxa diária) ^ (dias úteis)</code>
+        </p>
+        <p>
+          Exemplo: R$ 50.000 no plano <strong>Diamante</strong> (0,76% ao dia).  
+          Em 6 meses (~132 dias úteis) → saldo final ≈ R$ 100.000.  
+          Ou seja, o capital dobra no prazo estipulado.
+        </p>
+      </div>
+    </details>
+
+    <!-- 4. Depósitos -->
+    <details>
+      <summary style="font-weight:700; color:var(--gold); cursor:pointer;">Como funcionam os depósitos?</summary>
+      <div class="card" style="margin-top:10px;">
+        <p>
+          - Depósitos podem ser feitos em <strong>USDT (TRC20)</strong> ou em reais (via PIX convertido).  
+          - Após a confirmação em blockchain ou validação manual, o valor é creditado no sistema.  
+          - Rendimentos começam a ser gerados após a confirmação.
+        </p>
+      </div>
+    </details>
+
+    <!-- 5. Saques -->
+    <details>
+      <summary style="font-weight:700; color:var(--gold); cursor:pointer;">Quais são as regras de saque?</summary>
+      <div class="card" style="margin-top:10px;">
+        <ul style="color:#ddd;">
+          <li>Disponível 1x por semana.</li>
+          <li>Valor mínimo: R$ 100,00.</li>
+          <li>Taxa: 3% sobre o valor solicitado.</li>
+          <li>Lucros de pacotes, comissões e bônus são saldos independentes.</li>
+        </ul>
+      </div>
+    </details>
+
+    <!-- 6. Plano de Carreira -->
+    <details>
+      <summary style="font-weight:700; color:var(--gold); cursor:pointer;">Como funciona o plano de carreira e comissões?</summary>
+      <div class="card" style="margin-top:10px;">
+        <p><strong>Comissões unilevel:</strong></p>
+        <ul>
+          <li>1º nível: 10%</li>
+          <li>2º nível: 3%</li>
+          <li>3º nível: 2%</li>
+          <li>4º a 6º níveis: 1% cada</li>
+          <li>7º a 10º níveis: 0,5% cada</li>
+        </ul>
+        <p><strong>Níveis de carreira:</strong> vão de Cristal até Diamante Negro Triplo, com prêmios que vão de bônus em dinheiro até carro, apartamento e jato executivo.</p>
+      </div>
+    </details>
+
+    <!-- 7. Segurança -->
+    <details>
+      <summary style="font-weight:700; color:var(--gold); cursor:pointer;">Segurança da conta</summary>
+      <div class="card" style="margin-top:10px;">
+        <ul>
+          <li>Alterar senha pelo painel.</li>
+          <li>Ativar 2FA (Google Authenticator/Authy) para login e saques.</li>
+          <li>KYC: exigido para pacotes altos e segurança extra.</li>
+        </ul>
+      </div>
+    </details>
+
+    <!-- 8. Taxas -->
+    <details>
+      <summary style="font-weight:700; color:var(--gold); cursor:pointer;">Quais são as taxas?</summary>
+      <div class="card" style="margin-top:10px;">
+        <ul>
+          <li>Taxa de administração: 5% sobre lucros.</li>
+          <li>Taxa de saque: 3% sobre o valor solicitado.</li>
+          <li>Manutenção: já inclusa na taxa de administração.</li>
+        </ul>
+      </div>
+    </details>
+
+    <!-- 9. Políticas -->
+    <details>
+      <summary style="font-weight:700; color:var(--gold); cursor:pointer;">Políticas e sustentabilidade</summary>
+      <div class="card" style="margin-top:10px;">
+        <ul>
+          <li>Pacotes escalonados: apenas o maior dobra em 6 meses.</li>
+          <li>Comissões limitadas a 20% da rede.</li>
+          <li>40% de cada depósito vai para caixa de liquidez.</li>
+          <li>Negócios reais serão usados como lastro no futuro.</li>
+        </ul>
+      </div>
+    </details>
+
+    <!-- 10. Suporte -->
+    <details>
+      <summary style="font-weight:700; color:var(--gold); cursor:pointer;">Como funciona o suporte?</summary>
+      <div class="card" style="margin-top:10px;">
+        <p>
+          O suporte pode ser acionado diretamente pelo painel ou via e-mail oficial.  
+          Sempre tenha em mãos comprovantes de depósitos, TXID de saques e dados da conta
+          para agilizar o atendimento.
+        </p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- SCRIPT FAQ -->
+<script>
+  (function(){
+    const search = document.getElementById('faq-search');
+    const list = document.getElementById('faq-list');
+    const details = list ? Array.from(list.querySelectorAll('details')) : [];
+    const expandBtn = document.getElementById('faq-expand');
+    const collapseBtn = document.getElementById('faq-collapse');
+
+    function filterFAQ(q) {
+      const term = (q || '').trim().toLowerCase();
+      details.forEach(d => {
+        const text = d.textContent.toLowerCase();
+        d.style.display = !term || text.includes(term) ? '' : 'none';
+      });
+    }
+    if (search) {
+      search.addEventListener('input', e => filterFAQ(e.target.value));
+      search.addEventListener('search', e => filterFAQ(e.target.value));
+    }
+    if (expandBtn) expandBtn.addEventListener('click', () => details.forEach(d => d.open = true));
+    if (collapseBtn) collapseBtn.addEventListener('click', () => details.forEach(d => d.open = false));
+  })();
+</script>
